@@ -5,6 +5,11 @@ import '../../l10n/generated/app_localizations.dart';
 
 export '../../l10n/generated/app_localizations.dart';
 
+/// Delegates of the material, cupertino and widgets bundles, taken from the
+/// generated class so that the application and the tests share one list.
+const List<LocalizationsDelegate<dynamic>> appLocalizationsDelegates =
+    AppLocalizations.localizationsDelegates;
+
 /// Locales supported by the application (spec: French, English, Arabic),
 /// taken from the generated bundle so that the two lists cannot diverge.
 const List<Locale> appSupportedLocales = AppLocalizations.supportedLocales;

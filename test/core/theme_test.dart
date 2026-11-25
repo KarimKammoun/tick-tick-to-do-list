@@ -25,6 +25,24 @@ void main() {
         greaterThanOrEqualTo(Contrast.minTextRatio),
       );
     });
+
+    test('backgroundFor() keeps the chosen text readable', () {
+      // The turquoise rail of the light theme: white icons are not readable
+      // on the raw tint, so the surface is darkened.
+      final Color surface =
+          Contrast.backgroundFor(Colors.white, const Color(0xFF369081));
+
+      expect(
+        Contrast.ratio(Colors.white, surface),
+        greaterThanOrEqualTo(Contrast.minTextRatio),
+      );
+      expect(surface, isNot(const Color(0xFF369081)));
+      // A background that is already fine is returned unchanged.
+      expect(
+        Contrast.backgroundFor(Colors.black, Colors.white),
+        Colors.white,
+      );
+    });
   });
 
   group('AppColors tokens', () {
@@ -66,10 +84,9 @@ void main() {
   });
 
   group('AppTheme', () {
-    for (final Color accent in <Color>[
-      AppColors.defaultAccent,
-      const Color(0xFF3FA796),
-    ]) {
+    // Every accent offered in Settings > Appearance has to satisfy the rules,
+    // not only the default blue and the turquoise option.
+    for (final Color accent in AppColors.accentPalette) {
       test('light and dark themes meet the contrast rules ($accent)', () {
         for (final ThemeData theme in <ThemeData>[
           AppTheme.light(accent),

@@ -10,6 +10,8 @@ import 'package:taskflow/core/settings/settings_providers.dart';
 import 'package:taskflow/core/settings/settings_repository.dart';
 import 'package:taskflow/core/theme/app_colors.dart';
 import 'package:taskflow/core/theme/app_theme_extension.dart';
+import 'package:taskflow/features/lists/data/list_providers.dart';
+import 'package:taskflow/features/lists/domain/task_list.dart';
 
 import '../data/test_database.dart';
 
@@ -45,6 +47,12 @@ void main() {
             SharedPreferencesSettingsRepository(preferences),
           ),
           appDatabaseProvider.overrideWithValue(database),
+          // The sidebar watches the lists through a stream; feeding it a
+          // fixed value keeps `pumpAndSettle` from waiting on the (animated)
+          // loading state.
+          listsProvider.overrideWith(
+            (Ref ref) => Stream<List<TaskList>>.value(const <TaskList>[]),
+          ),
         ],
         child: const TaskFlowApp(),
       ),

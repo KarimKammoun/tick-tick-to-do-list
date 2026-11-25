@@ -9,6 +9,8 @@ import 'package:taskflow/core/localization/localization_providers.dart';
 import 'package:taskflow/core/settings/app_settings.dart';
 import 'package:taskflow/core/settings/settings_providers.dart';
 import 'package:taskflow/core/settings/settings_repository.dart';
+import 'package:taskflow/features/lists/data/list_providers.dart';
+import 'package:taskflow/features/lists/domain/task_list.dart';
 import 'package:taskflow/features/shell/presentation/app_shell.dart';
 
 import '../data/test_database.dart';
@@ -57,6 +59,11 @@ void main() {
         settingsRepositoryProvider
             .overrideWithValue(_MemorySettingsRepository()),
         appDatabaseProvider.overrideWithValue(database),
+        // Fixed list stream: the sidebar must not stay in its loading state,
+        // which would keep `pumpAndSettle` waiting forever.
+        listsProvider.overrideWith(
+          (Ref ref) => Stream<List<TaskList>>.value(const <TaskList>[]),
+        ),
       ],
     );
     addTearDown(container.dispose);

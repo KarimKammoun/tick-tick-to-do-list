@@ -61,6 +61,35 @@ abstract final class Contrast {
     return target;
   }
 
+  /// Returns a background close to [background] on which [text] reaches
+  /// [minRatio], by blending the background towards black or white - whichever
+  /// moves it away from the text - until the ratio is met.
+  ///
+  /// Used for the tinted surfaces derived from the accent, such as the icon
+  /// rail, where the text colour is fixed and the surface has to adapt.
+  static Color backgroundFor(
+    Color text,
+    Color background, {
+    double minRatio = minTextRatio,
+  }) {
+    if (ratio(text, background) >= minRatio) {
+      return background;
+    }
+    // Move the background away from the text: darken a light background,
+    // lighten a dark one.
+    final Color target = relativeLuminance(text) < 0.5
+        ? const Color(0xFFFFFFFF)
+        : const Color(0xFF000000);
+    for (int step = 1; step <= 100; step++) {
+      final Color candidate =
+          Color.alphaBlend(target.withValues(alpha: step / 100), background);
+      if (ratio(text, candidate) >= minRatio) {
+        return candidate;
+      }
+    }
+    return target;
+  }
+
   /// Picks the lightest or darkest text colour for a filled background,
   /// preferring white (or the supplied dark) when both are acceptable.
   static Color textOn(

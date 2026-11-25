@@ -48,8 +48,3 @@ class TaskFlowApp extends ConsumerWidget {
     return const Locale('en');
   }
 }
-
-/// Delegates used by the application and by the widget tests: the generated
-/// bundle already lists the Material, Cupertino and Widgets delegates.
-const List<LocalizationsDelegate<dynamic>> appLocalizationsDelegates =
-    AppLocalizations.localizationsDelegates;

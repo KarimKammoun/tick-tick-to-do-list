@@ -150,17 +150,20 @@ class AppColors {
   ///   and the accent still reads on the background.
   ///
   /// [rail] is tinted from the accent, as specified in the annexe table where
-  /// the rail is "accent foncé" in the light theme.
+  /// the rail is "accent foncé" in the light theme; the tint is adjusted with
+  /// [Contrast.backgroundFor] so that the icons drawn on it stay readable.
   AppColors harmonized(Color accent) {
     final Color resolvedAccent = Contrast.accessibleAccent(accent, background);
+    // A custom accent tints the rail, but never at the cost of readability:
+    // the tint is darkened or lightened until the icons and labels drawn on the
+    // rail reach the 4.5:1 ratio of Annexe D.2.
+    final Color tintedRail = Color.alphaBlend(
+      accent.withValues(alpha: brightnessIsDark ? 0.32 : 0.86),
+      brightnessIsDark ? const Color(0xFF101314) : const Color(0xFF000000),
+    );
     final Color railColor = accent == defaultAccent
         ? rail
-        : Color.alphaBlend(
-            accent.withValues(alpha: brightnessIsDark ? 0.32 : 0.86),
-            brightnessIsDark
-                ? const Color(0xFF101314)
-                : const Color(0xFF000000),
-          );
+        : Contrast.backgroundFor(onRail, tintedRail);
 
     return AppColors(
       brightnessIsDark: brightnessIsDark,

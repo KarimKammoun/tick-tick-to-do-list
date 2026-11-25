@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:taskflow/l10n/generated/app_localizations.dart';
+import 'package:taskflow/core/localization/localization_providers.dart';
 
 /// Keys of an ARB file, without the `@@` metadata entries.
 Set<String> _keysOf(String path) {
@@ -31,10 +31,19 @@ void main() {
           jsonDecode(File('lib/l10n/app_ar.arb').readAsStringSync())
               as Map<String, dynamic>;
 
+      // Keys that are legitimately identical in both languages: the
+      // application name, and the language names, which are endonyms
+      // ("Français" reads the same in an Arabic interface).
+      const Set<String> intentionallyIdentical = <String>{
+        'appTitle',
+        'settingsLanguageFrench',
+        'settingsLanguageEnglish',
+        'settingsLanguageArabic',
+      };
+
       final List<String> identical = <String>[];
       for (final String key in _keysOf('lib/l10n/app_en.arb')) {
-        // The application name stays identical in every language.
-        if (key == 'appTitle') {
+        if (intentionallyIdentical.contains(key)) {
           continue;
         }
         if (english[key] == arabic[key]) {
@@ -67,6 +76,9 @@ void main() {
 
       expect(arabic.localeName, 'ar');
       expect(arabic.shellTabTasks, isNot(english.shellTabTasks));
+      // The generated per-language classes are the ones the delegate returns.
+      expect(arabic, isA<AppLocalizationsAr>());
+      expect(english, isA<AppLocalizationsEn>());
     });
 
     testWidgets('Arabic runs right-to-left inside the application', (
@@ -76,8 +88,8 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('ar'),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: appLocalizationsDelegates,
+          supportedLocales: appSupportedLocales,
           home: Builder(
             builder: (BuildContext context) {
               direction = Directionality.of(context);
