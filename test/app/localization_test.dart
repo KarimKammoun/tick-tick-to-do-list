@@ -69,7 +69,11 @@ void main() {
           if (entity is! File || !entity.path.endsWith('.dart')) {
             continue;
           }
-          if (entity.path.startsWith('lib/l10n/generated')) {
+          // Generated sources mirror every key by construction, and
+          // `app_database.g.dart` declares hundreds of columns: reading them
+          // would hide a genuinely dead key behind a coincidental name.
+          if (entity.path.startsWith('lib/l10n/generated') ||
+              entity.path.endsWith('.g.dart')) {
             continue;
           }
           for (final RegExpMatch match
