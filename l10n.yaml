@@ -1,3 +1,10 @@
+# Configuration of `flutter gen-l10n`.
+#
+# The generated class lives in lib/l10n/generated/ and is committed, so that the
+# project builds and analyzes without running code generation first. The file is
+# a single merged file (one class per locale inside it), which is what
+# `output-class` + `output-dir` produce for a project without a synthetic
+# package.
 arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart

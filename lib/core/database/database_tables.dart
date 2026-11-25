@@ -11,9 +11,10 @@ mixin SyncColumns on Table {
   /// on every engine.
   TextColumn get id => text()();
 
-  /// Last local modification, in UTC.
+  /// Last local modification, in UTC. Written by the repositories; the
+  /// `clientDefault` keeps a row insertable without it.
   DateTimeColumn get updatedAt =>
-      dateTime().withDefault(currentDateAndTime)();
+      dateTime().clientDefault(() => DateTime.now().toUtc())();
 
   /// Soft delete timestamp; `null` means the row is alive.
   DateTimeColumn get deletedAt => dateTime().nullable()();
@@ -124,7 +125,7 @@ class Tasks extends Table with SyncColumns {
 
   /// Creation timestamp, kept apart from [updatedAt].
   DateTimeColumn get createdAt =>
-      dateTime().withDefault(currentDateAndTime)();
+      dateTime().clientDefault(() => DateTime.now().toUtc())();
 
   @override
   Set<Column<Object>> get primaryKey => <Column<Object>>{id};

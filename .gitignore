@@ -6,8 +6,6 @@ build/
 coverage/
 doc/api/
 
-# Generated localization code (produced by `flutter gen-l10n`).
-lib/l10n/generated/
 
 # IDE / OS
 .idea/

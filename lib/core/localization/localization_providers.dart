@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 
+export '../../l10n/generated/app_localizations.dart';
+
 /// Locales supported by the application (spec: French, English, Arabic).
 const List<Locale> appSupportedLocales = <Locale>[
   Locale('fr'),
