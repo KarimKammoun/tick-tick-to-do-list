@@ -1,0 +1,21 @@
+# Dart / Flutter
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+coverage/
+doc/api/
+
+# Generated localization code (produced by `flutter gen-l10n`).
+lib/l10n/generated/
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Local database files
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
