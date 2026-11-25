@@ -51,15 +51,16 @@ Ce dépôt construit **TaskFlow** (Flutter, Android + Windows) étape par étape
 
 - Drift, table déclarée dans `lib/core/database/database_tables.dart` ; toute table synchronisable utilise le mixin `SyncColumns` (`id` UUID, `updated_at`, `deleted_at`).
 - Suppression **logique** (`deleted_at`) partout ; les flux (`watch...`) filtrent `deletedAt IS NULL`.
-- Après toute modification de table : `dart run build_runner build --delete-conflicting-outputs` (le fichier `*.g.dart` est versionné).
+- Après toute modification de table : `dart run build_runner build --delete-conflicting-outputs` (le fichier `app_database.g.dart` est versionné).
+- `tool/generate_drift_code.py` reproduit la sortie de `drift_dev` pour ce schéma précis : à n'utiliser que si aucun SDK Dart n'est disponible, et à supprimer dès que `build_runner` peut tourner.
 - Chaque dépôt expose une interface (`TaskRepository`) et une implémentation Drift testée avec une base en mémoire.
 
 ## Internationalisation
 
-- `flutter gen-l10n` génère `lib/l10n/generated/` (non versionné, produit par la CI et à la génération locale).
+- `flutter gen-l10n` régénère `lib/l10n/generated/app_localizations.dart`, versionné ici pour que `flutter analyze` fonctionne sans étape de génération. Les widgets importent `core/localization/localization_providers.dart` (qui réexporte la classe générée), jamais le fichier généré directement.
 - Locales : `fr`, `en`, `ar`. L'arabe se lit de droite à gauche : ne jamais coder `left`/`right` en dur, utiliser `EdgeInsetsDirectional`, `AlignmentDirectional`, ou les helpers directionnels.
 - Ne pas s'appuyer sur le texte des captures de référence : le contenu des écrans vient exclusivement des ARB.
 
 ## CI
 
-`.github/workflows/ci.yml` : `flutter pub get`, `flutter gen-l10n`, `dart run build_runner build`, `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`.
+Le workflow prêt à l'emploi est `docs/ci/ci.yml` (à copier en `.github/workflows/ci.yml` par un compte ayant la permission *workflow*) : `flutter pub get`, `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`.

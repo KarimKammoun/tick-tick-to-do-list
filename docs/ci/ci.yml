@@ -1,3 +1,10 @@
+# CI workflow: formatting, analysis and tests.
+#
+# Kept under docs/ci/ because the credentials available in this repository's
+# generation environment are not allowed to push files under
+# `.github/workflows/`. To enable it, copy this file to
+# `.github/workflows/ci.yml` from an account whose token has the "workflow"
+# permission; nothing else has to change.
 name: CI
 
 on:
@@ -5,7 +12,6 @@ on:
     branches:
       - main
       - 'arena/**'
-      - 'feat/**'
   pull_request:
   workflow_dispatch:
 
@@ -14,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze-and-test:
+  analyze-format-test:
     name: Analyze, format check and test
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -31,17 +37,19 @@ jobs:
       - name: Flutter version
         run: flutter --version
 
-      - name: Install SQLite (needed by Drift unit tests)
+      # Drift unit tests open an in-memory sqlite database through dart:ffi.
+      - name: Install SQLite
         run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Generate localizations
-        run: flutter gen-l10n
-
-      - name: Run code generation (Drift)
-        run: dart run build_runner build --delete-conflicting-outputs
+      # Rebuild the committed generated sources before analysing, so a stale
+      # `app_database.g.dart` cannot hide a schema/runtime mismatch.
+      - name: Regenerate generated sources
+        run: |
+          flutter gen-l10n
+          dart run build_runner build --delete-conflicting-outputs
 
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed lib test

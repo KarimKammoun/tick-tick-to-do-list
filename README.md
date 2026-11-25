@@ -81,8 +81,26 @@ lib/
 
 Chaque fonctionnalité suit `data` (Drift + providers), `domain` (modèles) et `presentation` (écrans) ; les écrans ne contiennent ni couleur ni texte en dur (voir `CLAUDE.md`).
 
+## Vérification sur Android et Windows
+
+Le dépôt ne contient volontairement aucun workflow GitHub Actions : le jeton de
+l'environnement de génération n'a pas la permission « workflows ». Le fichier de
+CI prêt à l'emploi est fourni dans [`docs/ci/ci.yml`](docs/ci/ci.yml) ; pour
+l'activer, le copier en `.github/workflows/ci.yml` (commit avec un compte ayant
+la permission *workflow*).
+
+En attendant, la vérification se fait en local : les quatre commandes de la
+section précédente, puis le lancement sur un téléphone Android et sur Windows,
+dans les deux thèmes.
+
 ## Limites connues de l'étape 0
 
 - Les écrans Calendrier, Matrice, Concentration et Détail de tâche sont des pages vides : ils sont livrés aux étapes 1 à 6.
 - Aucune création de tâche, rappel, récurrence ni synchronisation : étapes 1 à 4.
 - `supabase_flutter` est installé mais pas encore initialisé.
+- `lib/core/database/app_database.g.dart` (sortie de `drift_dev`) et
+  `lib/l10n/generated/app_localizations.dart` (sortie de `gen-l10n`) sont
+  versionnés : l'environnement de génération n'a pas de SDK Dart. Les deux
+  s'obtiennent avec `dart run build_runner build --delete-conflicting-outputs`
+  et `flutter gen-l10n`, et le fichier Drift se régénère aussi avec
+  `python3 tool/generate_drift_code.py` (secours, mêmes conventions).
