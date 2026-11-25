@@ -1,0 +1,215 @@
+{
+  "@@locale": "en",
+  "appTitle": "TaskFlow",
+  "@appTitle": {
+    "description": "Application name. Not translated, kept in every ARB file."
+  },
+  "shellTabTasks": "Tasks",
+  "@shellTabTasks": {
+    "description": "Mobile bottom bar, first icon. Icon only on the bar, the string is used as tooltip and for screen readers."
+  },
+  "shellTabCalendar": "Calendar",
+  "@shellTabCalendar": {
+    "description": "Mobile bottom bar, second icon."
+  },
+  "shellTabMatrix": "Matrix",
+  "@shellTabMatrix": {
+    "description": "Mobile bottom bar, third icon (Eisenhower matrix)."
+  },
+  "shellTabFocus": "Focus",
+  "@shellTabFocus": {
+    "description": "Mobile bottom bar, fourth icon (Pomodoro)."
+  },
+  "shellTabMore": "More",
+  "@shellTabMore": {
+    "description": "Mobile bottom bar, fifth icon, opens the side menu."
+  },
+  "navInbox": "Inbox",
+  "@navInbox": {
+    "description": "Smart view holding the tasks without a list."
+  },
+  "navToday": "Today",
+  "@navToday": {
+    "description": "Smart view of the tasks due today."
+  },
+  "navNext7Days": "Next 7 Days",
+  "@navNext7Days": {
+    "description": "Smart view of the tasks due in the coming week."
+  },
+  "navCompleted": "Completed",
+  "@navCompleted": {
+    "description": "Smart view of the finished tasks."
+  },
+  "navTrash": "Trash",
+  "@navTrash": {
+    "description": "Soft deleted tasks, purged after 30 days."
+  },
+  "navLists": "Lists",
+  "@navLists": {
+    "description": "Sidebar section header above the user lists."
+  },
+  "navNoLists": "No list yet",
+  "@navNoLists": {
+    "description": "Empty state of the sidebar list section."
+  },
+  "navSettings": "Settings",
+  "@navSettings": {
+    "description": "Sidebar entry opening the settings."
+  },
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "Sidebar entry opening the account screen (step 4)."
+  },
+  "navPremium": "Premium",
+  "@navPremium": {
+    "description": "Crown badge of the Premium plan."
+  },
+  "pageTasksTitle": "Tasks",
+  "@pageTasksTitle": {
+    "description": "Title of the task page placeholder."
+  },
+  "pageCalendarTitle": "Calendar",
+  "@pageCalendarTitle": {
+    "description": "Title of the calendar page placeholder."
+  },
+  "pageMatrixTitle": "Matrix",
+  "@pageMatrixTitle": {
+    "description": "Title of the Eisenhower matrix page placeholder."
+  },
+  "pageFocusTitle": "Focus",
+  "@pageFocusTitle": {
+    "description": "Title of the Pomodoro page placeholder."
+  },
+  "pageMoreTitle": "More",
+  "@pageMoreTitle": {
+    "description": "Title of the secondary menu page placeholder."
+  },
+  "pageSettingsTitle": "Settings",
+  "@pageSettingsTitle": {
+    "description": "Title of the settings page."
+  },
+  "pageInboxTitle": "Inbox",
+  "@pageInboxTitle": {
+    "description": "Title of the Inbox view placeholder."
+  },
+  "pageTodayTitle": "Today",
+  "@pageTodayTitle": {
+    "description": "Title of the Today view placeholder."
+  },
+  "pageNext7DaysTitle": "Next 7 Days",
+  "@pageNext7DaysTitle": {
+    "description": "Title of the Next 7 Days view placeholder."
+  },
+  "pageCompletedTitle": "Completed",
+  "@pageCompletedTitle": {
+    "description": "Title of the Completed view placeholder."
+  },
+  "pageTaskDetailTitle": "Task details",
+  "@pageTaskDetailTitle": {
+    "description": "Title of the task detail placeholder."
+  },
+  "pageProfileTitle": "Profile",
+  "@pageProfileTitle": {
+    "description": "Title of the profile placeholder."
+  },
+  "placeholderBody": "This screen arrives in a later step.",
+  "@placeholderBody": {
+    "description": "Body text of the empty pages created in step 0."
+  },
+  "settingsAppearanceSection": "Appearance",
+  "@settingsAppearanceSection": {
+    "description": "Section header of the appearance settings."
+  },
+  "settingsThemeLight": "Light",
+  "@settingsThemeLight": {
+    "description": "Theme option: always light."
+  },
+  "settingsThemeDark": "Dark",
+  "@settingsThemeDark": {
+    "description": "Theme option: always dark."
+  },
+  "settingsThemeSystem": "System",
+  "@settingsThemeSystem": {
+    "description": "Theme option: follow the operating system. Default."
+  },
+  "settingsAccentSection": "Accent colour",
+  "@settingsAccentSection": {
+    "description": "Section header of the accent colour picker."
+  },
+  "settingsAccentBlue": "Blue",
+  "@settingsAccentBlue": {
+    "description": "Name of the default blue accent (#4772FA)."
+  },
+  "settingsAccentTeal": "Turquoise",
+  "@settingsAccentTeal": {
+    "description": "Name of the turquoise accent (#3FA796)."
+  },
+  "settingsAccentViolet": "Violet",
+  "@settingsAccentViolet": {
+    "description": "Name of the violet accent."
+  },
+  "settingsAccentGreen": "Green",
+  "@settingsAccentGreen": {
+    "description": "Name of the green accent."
+  },
+  "settingsAccentAmber": "Amber",
+  "@settingsAccentAmber": {
+    "description": "Name of the amber accent."
+  },
+  "settingsAccentRed": "Red",
+  "@settingsAccentRed": {
+    "description": "Name of the red accent."
+  },
+  "settingsAccentPink": "Pink",
+  "@settingsAccentPink": {
+    "description": "Name of the pink accent."
+  },
+  "settingsAccentGraphite": "Graphite",
+  "@settingsAccentGraphite": {
+    "description": "Name of the neutral graphite accent."
+  },
+  "settingsDensitySection": "Density",
+  "@settingsDensitySection": {
+    "description": "Section header of the density setting (Annexe D.3.3)."
+  },
+  "settingsDensityComfortable": "Comfortable",
+  "@settingsDensityComfortable": {
+    "description": "Density option with regular spacing."
+  },
+  "settingsDensityCompact": "Compact",
+  "@settingsDensityCompact": {
+    "description": "Density option with tighter spacing."
+  },
+  "settingsLanguageSection": "Language",
+  "@settingsLanguageSection": {
+    "description": "Section header of the language setting."
+  },
+  "settingsLanguageSystem": "System language",
+  "@settingsLanguageSystem": {
+    "description": "Language option following the device language."
+  },
+  "settingsLanguageFrench": "Français",
+  "@settingsLanguageFrench": {
+    "description": "Language name, written in its own language."
+  },
+  "settingsLanguageEnglish": "English",
+  "@settingsLanguageEnglish": {
+    "description": "Language name, written in its own language."
+  },
+  "settingsLanguageArabic": "العربية",
+  "@settingsLanguageArabic": {
+    "description": "Language name, written in its own language."
+  },
+  "settingsSoon": "Coming in a later step",
+  "@settingsSoon": {
+    "description": "Badge shown on settings that are not implemented yet."
+  },
+  "commonAddTask": "Add task",
+  "@commonAddTask": {
+    "description": "Floating action button tooltip."
+  },
+  "errorGeneric": "Something went wrong.",
+  "@errorGeneric": {
+    "description": "Fallback error message."
+  }
+}

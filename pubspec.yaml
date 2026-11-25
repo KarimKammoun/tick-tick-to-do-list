@@ -1,0 +1,50 @@
+name: taskflow
+description: TaskFlow - offline-first task manager for Android and Windows.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  # Flutter 3.35 is the first stable release that exposes `AppBarThemeData` and
+  # `InputDecorationThemeData`, the component themes used by
+  # `lib/core/theme/app_theme.dart`. `Color.withValues` and `Color.toARGB32`
+  # (already used here) need Flutter 3.27, so 3.35 is the real floor.
+  sdk: ^3.8.0
+  flutter: ">=3.35.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management (spec: Riverpod).
+  flutter_riverpod: ^2.6.1
+  # Navigation (declarative routes, mobile + desktop shells).
+  go_router: ^14.6.2
+  # Local database (spec: Drift/SQLite).
+  drift: ^2.20.3
+  # Ships the native sqlite3 binary on Android and Windows so Drift can run.
+  sqlite3_flutter_libs: ^0.5.24
+  # Resolves the writable application directory for the sqlite file.
+  path_provider: ^2.1.4
+  path: ^1.9.0
+  # Persists the appearance settings (theme + accent) locally, as required by
+  # Annexe D.1 ("le changement de thème est mémorisé"). Installed but unused
+  # until step 4 (sync only, no auth yet).
+  shared_preferences: ^2.3.2
+  # Backend client, installed for step 4 and intentionally not initialised yet.
+  supabase_flutter: ^2.8.0
+  # Must stay unpinned: flutter_localizations pins the intl version itself.
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  # Drift code generation.
+  build_runner: ^2.4.13
+  drift_dev: ^2.20.3
+
+flutter:
+  uses-material-design: true
+  generate: true

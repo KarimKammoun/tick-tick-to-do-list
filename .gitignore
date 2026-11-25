@@ -1,0 +1,19 @@
+# Dart / Flutter
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+coverage/
+doc/api/
+
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Local database files
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal

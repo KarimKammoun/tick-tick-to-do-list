@@ -1,0 +1,13 @@
+# Configuration of `flutter gen-l10n`.
+#
+# The generated sources live in lib/l10n/generated/ and are committed, so that
+# the project analyses and builds without running code generation first:
+#   app_localizations.dart      abstract class, delegate and locale lookup
+#   app_localizations_<lang>.dart  one implementation per language
+# Regenerate with `flutter gen-l10n` after editing an ARB file.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/l10n/generated
+nullable-getter: false
