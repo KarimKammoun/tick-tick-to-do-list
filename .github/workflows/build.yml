@@ -1,0 +1,132 @@
+# Builds the two deliverables of the project from a clean machine:
+#
+#   * the Android APK, on a Linux runner with the Android SDK;
+#   * the Windows executable bundle, on a Windows runner that ships the Visual
+#     Studio C++ toolchain Flutter needs.
+#
+# Both are uploaded as workflow artifacts, so they can be downloaded from the
+# Actions tab without a local SDK. No secret is required: the release APK is
+# signed with the debug key (see android/app/build.gradle.kts), which is enough
+# to install and test it, not to publish on the Play Store.
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - 'arena/**'
+    tags:
+      - 'v*'
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pinned: android/ and windows/ were generated from the Flutter 3.50.1
+  # templates (Gradle 9.5.0, AGP 9.3.1, Kotlin 2.4.20, CMake). Bump this together
+  # with those files, never on its own.
+  FLUTTER_VERSION: 3.50.1
+  # AGP 9 needs a JDK 17 or newer; 21 is what Android Studio ships today.
+  JAVA_VERSION: '21'
+
+jobs:
+  android:
+    name: Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # The generated sources are committed, so a stale schema or ARB file is
+      # caught here instead of producing a silently wrong binary.
+      - name: Regenerate generated sources
+        run: |
+          flutter gen-l10n
+          dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build the release APK
+        # `--split-per-abi` would produce one APK per CPU architecture, which is
+        # smaller on a phone but useless on a desktop emulator: the universal
+        # APK below runs everywhere, which is what testing needs.
+        run: flutter build apk --release
+
+      - name: Rename the APK
+        run: |
+          cp build/app/outputs/flutter-apk/app-release.apk \
+             "taskflow-${{ github.sha }}.apk"
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: taskflow-android-apk
+          path: taskflow-*.apk
+          if-no-files-found: error
+          retention-days: 30
+
+  windows:
+    name: Windows executable
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Regenerate generated sources
+        run: |
+          flutter gen-l10n
+          dart run build_runner build --delete-conflicting-outputs
+
+      # windows-latest ships Visual Studio 2022 with the "Desktop development
+      # with C++" workload, which is the toolchain Flutter looks for.
+      - name: Build the Windows release bundle
+        run: flutter build windows --release
+
+      # A Flutter desktop build is a folder (exe + DLLs + data/), not a single
+      # file: zipping it keeps it runnable once extracted.
+      - name: Package the bundle
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path build/windows/x64/runner/Release/* `
+            -DestinationPath "taskflow-windows-x64-${{ github.sha }}.zip"
+
+      - name: Upload the Windows bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: taskflow-windows-x64
+          path: taskflow-windows-x64-*.zip
+          if-no-files-found: error
+          retention-days: 30
