@@ -139,7 +139,7 @@ abstract final class AppTheme {
         titleTextStyle: textTheme.titleLarge,
         contentTextStyle: textTheme.bodyMedium,
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: InputDecorationThemeData(
         filled: true,
         fillColor: colors.input,
         hintStyle: textTheme.bodyMedium?.copyWith(color: colors.textSecondary),

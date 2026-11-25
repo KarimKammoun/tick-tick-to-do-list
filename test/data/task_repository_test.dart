@@ -1,3 +1,4 @@
+import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:taskflow/core/database/app_database.dart';
 import 'package:taskflow/features/lists/data/list_repository.dart';
@@ -6,7 +7,6 @@ import 'package:taskflow/features/tasks/data/task_repository.dart';
 import 'package:taskflow/features/tasks/domain/task.dart';
 import 'package:taskflow/features/tasks/domain/task_priority.dart';
 import 'package:taskflow/features/tasks/domain/task_status.dart';
-import 'package:flutter/painting.dart';
 
 import 'test_database.dart';
 

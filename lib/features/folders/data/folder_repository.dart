@@ -94,7 +94,13 @@ class DriftFolderRepository implements FolderRepository {
   }
 
   Future<int> _nextSortOrder() async {
-    final int? maxOrder = await _db.folders.sortOrder.max().getSingleOrNull();
-    return (maxOrder ?? 0) + 1;
+    final List<FolderRow> rows = await _db.select(_db.folders).get();
+    int highest = 0;
+    for (final FolderRow row in rows) {
+      if (row.sortOrder > highest) {
+        highest = row.sortOrder;
+      }
+    }
+    return highest + 1;
   }
 }

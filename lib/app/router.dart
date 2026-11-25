@@ -8,9 +8,9 @@ import '../features/matrix/presentation/matrix_page.dart';
 import '../features/more/presentation/more_page.dart';
 import '../features/settings/presentation/settings_page.dart';
 import '../features/shell/presentation/app_shell.dart';
+import '../features/tasks/domain/smart_view.dart';
 import '../features/tasks/presentation/task_detail_page.dart';
 import '../features/tasks/presentation/task_list_page.dart';
-import '../features/tasks/domain/smart_view.dart';
 
 /// Route paths, referenced by the shell and the sidebar so that no screen
 /// spells a location twice.

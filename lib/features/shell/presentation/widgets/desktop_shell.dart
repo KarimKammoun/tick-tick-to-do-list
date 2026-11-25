@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/router.dart';
 import '../../../../core/localization/localization_providers.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_theme_extension.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../app_shell.dart';
 import 'shell_destination.dart';
 import 'sidebar_content.dart';
@@ -48,7 +48,7 @@ class DesktopShell extends StatelessWidget {
     );
     final Widget detail = ColoredBox(
       color: context.colors.surface,
-      child: _DetailPanel(location: location),
+      child: _DetailPanel(),
     );
 
     final List<Widget> zones = <Widget>[
@@ -76,11 +76,11 @@ class _IconRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppColorsTheme theme = Theme.of(context).extension<AppColorsTheme>()!;
+    final AppColors colors = context.colors;
     final AppLocalizations l10n = context.l10n;
 
     return ColoredBox(
-      color: theme.colors.rail,
+      color: colors.rail,
       child: SafeArea(
         child: Column(
           children: <Widget>[
@@ -101,8 +101,8 @@ class _IconRail extends StatelessWidget {
                             : destination.icon,
                         size: AppSizes.icon,
                         color: destination.index == currentIndex
-                            ? theme.colors.onRail
-                            : theme.colors.onRail.withValues(alpha: 0.65),
+                            ? colors.onRail
+                            : colors.onRail.withValues(alpha: 0.65),
                       ),
                     ),
                   ),
@@ -112,14 +112,14 @@ class _IconRail extends StatelessWidget {
             Tooltip(
               message: l10n.navSettings,
               child: InkResponse(
-                onTap: () => context.go('/settings'),
+                onTap: () => context.go(AppRoutes.settings),
                 radius: AppSizes.icon,
                 child: Padding(
                   padding: const EdgeInsets.all(AppSpacing.md),
                   child: Icon(
                     Icons.settings_outlined,
                     size: AppSizes.icon,
-                    color: theme.colors.onRail.withValues(alpha: 0.8),
+                    color: colors.onRail.withValues(alpha: 0.8),
                   ),
                 ),
               ),
@@ -134,9 +134,7 @@ class _IconRail extends StatelessWidget {
 /// Zone 4 of Annexe C.1. In step 0 no task is selected yet, so the panel shows
 /// its empty state; step 2 fills it with the task detail form.
 class _DetailPanel extends StatelessWidget {
-  const _DetailPanel({required this.location});
-
-  final String location;
+  const _DetailPanel();
 
   @override
   Widget build(BuildContext context) {

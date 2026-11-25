@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../core/localization/localization_providers.dart';
 import '../core/settings/app_settings.dart';
 import '../core/settings/settings_providers.dart';
-import '../l10n/generated/app_localizations.dart';
 import 'router.dart';
 
 /// Root widget: localisation, themes and router.
@@ -18,29 +17,21 @@ class TaskFlowApp extends ConsumerWidget {
     final GoRouter router = ref.watch(routerProvider);
     final AppSettings settings = ref.watch(appSettingsProvider);
     final Locale? localeOverride = ref.watch(appLocaleProvider);
+    final ThemeData lightTheme = ref.watch(lightThemeProvider);
+    final ThemeData darkTheme = ref.watch(darkThemeProvider);
 
     return MaterialApp.router(
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context).appTitle,
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       themeMode: settings.themeMode.materialMode,
-      theme: ref.watch(lightThemeProvider),
-      darkTheme: ref.watch(darkThemeProvider),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       locale: localeOverride,
       supportedLocales: appSupportedLocales,
       localizationsDelegates: appLocalizationsDelegates,
       localeResolutionCallback: _resolveLocale,
-      builder: (BuildContext context, Widget? child) {
-        final MediaQueryData mediaQuery = MediaQuery.of(context);
-        return MediaQuery(
-          data: mediaQuery.copyWith(
-            textScaler: TextScaler.linear(
-              mediaQuery.textScaler.scale(1) * settings.textScale,
-            ),
-          ),
-          child: child ?? const SizedBox.shrink(),
-        );
-      },
     );
   }
 
@@ -59,7 +50,7 @@ class TaskFlowApp extends ConsumerWidget {
   }
 }
 
-/// Exposes the Flutter delegates to the tests and to the ARB generation.
+/// Delegates used by the application and by the widget tests.
 const List<LocalizationsDelegate<Object>> appLocalizationsDelegates =
     <LocalizationsDelegate<Object>>[
   AppLocalizations.delegate,

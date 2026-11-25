@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taskflow/app/router.dart';
-import 'package:taskflow/l10n/generated/app_localizations.dart';
 import 'package:taskflow/core/database/app_database.dart';
 import 'package:taskflow/core/database/database_providers.dart';
+import 'package:taskflow/core/localization/localization_providers.dart';
 import 'package:taskflow/core/settings/app_settings.dart';
 import 'package:taskflow/core/settings/settings_providers.dart';
 import 'package:taskflow/core/settings/settings_repository.dart';
@@ -64,6 +64,7 @@ void main() {
           supportedLocales: const <Locale>[Locale('fr'), Locale('en'), Locale('ar')],
           theme: container.read(lightThemeProvider),
           darkTheme: container.read(darkThemeProvider),
+          themeMode: ThemeMode.light,
         ),
       ),
     );
@@ -76,8 +77,9 @@ void main() {
       final GoRouter router = await pumpRouter(tester);
 
       expect(router.state.uri.path, AppRoutes.tasks);
-      expect(find.byType(NavigationRail), findsNothing);
       expect(find.byType(AppShell), findsOneWidget);
+      // The desktop layout has no bottom bar: it uses the icon rail instead.
+      expect(find.byType(NavigationBar), findsNothing);
     });
 
     testWidgets('reaches every top-level route', (WidgetTester tester) async {

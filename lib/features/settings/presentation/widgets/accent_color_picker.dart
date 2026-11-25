@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/localization/localization_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 
 /// Palette of 8 accent colours (Annexe D.3.2), blue being the default.
 ///

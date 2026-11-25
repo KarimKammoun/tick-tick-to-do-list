@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/router.dart';
-import '../../../l10n/generated/app_localizations.dart';
 import '../../../core/localization/localization_providers.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../shared/presentation/widgets/app_card.dart';

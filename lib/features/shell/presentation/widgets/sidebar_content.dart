@@ -6,7 +6,6 @@ import '../../../../app/router.dart';
 import '../../../../core/localization/localization_providers.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_theme_extension.dart';
-import '../../../../l10n/generated/app_localizations.dart';
 import '../../../lists/data/list_providers.dart';
 import '../../../lists/domain/task_list.dart';
 import '../../../tasks/domain/smart_view.dart';

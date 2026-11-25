@@ -39,7 +39,7 @@ void main() {
         'tasks',
         'tags',
       ]) {
-        final List<String> columns = await _columnsOf(database, table);
+        final List<String> columns = await columnsOf(database, table);
         expect(columns, contains('id'), reason: '$table.id');
         expect(columns, contains('updated_at'), reason: '$table.updated_at');
         expect(columns, contains('deleted_at'), reason: '$table.deleted_at');
@@ -47,7 +47,7 @@ void main() {
     });
 
     test('tasks exposes the parent_id and list_id used by sub-tasks', () async {
-      final List<String> columns = await _columnsOf(database, 'tasks');
+      final List<String> columns = await columnsOf(database, 'tasks');
 
       expect(columns, contains('parent_id'));
       expect(columns, contains('list_id'));
@@ -57,17 +57,9 @@ void main() {
     });
 
     test('task_tags stores the task and tag pair as composite key', () async {
-      final List<String> columns = await _columnsOf(database, 'task_tags');
+      final List<String> columns = await columnsOf(database, 'task_tags');
 
       expect(columns, containsAll(<String>['task_id', 'tag_id']));
     });
   });
-}
-
-Future<List<String>> _columnsOf(AppDatabase database, String table) async {
-  final List<dynamic> rows =
-      await database.customSelect('PRAGMA table_info($table)').get();
-  return rows
-      .map((dynamic row) => row.read<String>('name'))
-      .toList(growable: false);
 }

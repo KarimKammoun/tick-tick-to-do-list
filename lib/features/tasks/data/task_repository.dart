@@ -287,15 +287,13 @@ class DriftTaskRepository implements TaskRepository {
   }
 
   Future<int> _nextSortOrder(String? listId) async {
-    final Expression<int> maxOrder = _db.tasks.sortOrder.max();
-    final Selectable<int> query = listId == null
-        ? (_db.selectOnly(_db.tasks)
-            ..addColumns(<Expression<Object>>[maxOrder])
-            ..where(_db.tasks.listId.isNull()))
-        : (_db.selectOnly(_db.tasks)
-            ..addColumns(<Expression<Object>>[maxOrder])
-            ..where(_db.tasks.listId.equals(listId)));
-    final TypedResult result = await query.getSingle();
-    return (result.read(maxOrder) ?? 0) + 1;
+    final List<TaskRow> rows = await _db.select(_db.tasks).get();
+    int highest = 0;
+    for (final TaskRow row in rows) {
+      if (row.listId == listId && row.sortOrder > highest) {
+        highest = row.sortOrder;
+      }
+    }
+    return highest + 1;
   }
 }
