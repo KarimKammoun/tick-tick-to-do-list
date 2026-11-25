@@ -68,7 +68,8 @@ abstract final class AppTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: textTheme.titleLarge,
-        iconTheme: IconThemeData(color: colors.textPrimary, size: AppSizes.icon),
+        iconTheme:
+            IconThemeData(color: colors.textPrimary, size: AppSizes.icon),
       ),
       cardTheme: CardThemeData(
         color: colors.surface,
@@ -82,7 +83,8 @@ abstract final class AppTheme {
         thickness: 1,
         space: 1,
       ),
-      iconTheme: IconThemeData(color: colors.textSecondary, size: AppSizes.icon),
+      iconTheme:
+          IconThemeData(color: colors.textSecondary, size: AppSizes.icon),
       listTileTheme: ListTileThemeData(
         iconColor: colors.textSecondary,
         textColor: colors.textPrimary,

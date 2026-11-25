@@ -103,7 +103,9 @@ void main() {
       expect(find.text('Inbox'), findsWidgets);
     });
 
-    testWidgets('navigates to the calendar branch', (WidgetTester tester) async {
+    testWidgets('navigates to the calendar branch', (
+      WidgetTester tester,
+    ) async {
       await pumpApp(tester, const Size(400, 800));
 
       await tester.tap(find.byIcon(Icons.calendar_today_outlined).first);

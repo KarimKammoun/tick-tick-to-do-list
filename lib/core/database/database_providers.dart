@@ -12,8 +12,10 @@ final Provider<DatabaseConnection> databaseConnectionProvider =
 });
 
 /// The single local database instance.
-final Provider<AppDatabase> appDatabaseProvider = Provider<AppDatabase>((Ref ref) {
-  final AppDatabase database = AppDatabase(ref.watch(databaseConnectionProvider));
+final Provider<AppDatabase> appDatabaseProvider =
+    Provider<AppDatabase>((Ref ref) {
+  final AppDatabase database =
+      AppDatabase(ref.watch(databaseConnectionProvider));
   ref.onDispose(database.close);
   return database;
 });

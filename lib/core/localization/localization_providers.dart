@@ -5,12 +5,9 @@ import '../../l10n/generated/app_localizations.dart';
 
 export '../../l10n/generated/app_localizations.dart';
 
-/// Locales supported by the application (spec: French, English, Arabic).
-const List<Locale> appSupportedLocales = <Locale>[
-  Locale('fr'),
-  Locale('en'),
-  Locale('ar'),
-];
+/// Locales supported by the application (spec: French, English, Arabic),
+/// taken from the generated bundle so that the two lists cannot diverge.
+const List<Locale> appSupportedLocales = AppLocalizations.supportedLocales;
 
 /// Convenience access to the generated ARB strings:
 /// `context.l10n.shellTabTasks`.

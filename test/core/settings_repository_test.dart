@@ -50,7 +50,7 @@ void main() {
       expect(reloaded.textScale, 1.2);
     });
 
-    test('falls back to the defaults when the stored value is unknown', () async {
+    test('falls back to the defaults on an unknown value', () async {
       SharedPreferences.setMockInitialValues(<String, Object>{
         'settings.themeMode': 'unknown',
         'settings.density': 'unknown',
@@ -69,7 +69,8 @@ void main() {
   group('AppSettings', () {
     test('copyWith keeps the other fields', () {
       const AppSettings settings = AppSettings();
-      final AppSettings updated = settings.copyWith(themeMode: AppThemeMode.light);
+      final AppSettings updated =
+          settings.copyWith(themeMode: AppThemeMode.light);
 
       expect(updated.themeMode, AppThemeMode.light);
       expect(updated.accentColor, settings.accentColor);

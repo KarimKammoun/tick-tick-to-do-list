@@ -24,6 +24,13 @@ class _MemorySettingsRepository implements SettingsRepository {
   Future<void> write(AppSettings settings) async => _settings = settings;
 }
 
+/// Current location of the router.
+///
+/// `GoRouter.state` is nullable in go_router 14, the delegate configuration is
+/// the non-null source of truth for the tests.
+String _locationOf(GoRouter router) =>
+    router.routerDelegate.currentConfiguration.uri.toString();
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -54,6 +61,9 @@ void main() {
     );
     addTearDown(container.dispose);
     router = container.read(routerProvider);
+    // The router is created by a plain provider: disposing the container does
+    // not close it, so the test does it explicitly.
+    addTearDown(router.dispose);
 
     await tester.pumpWidget(
       UncontrolledProviderScope(
@@ -61,7 +71,11 @@ void main() {
         child: MaterialApp.router(
           routerConfig: router,
           localizationsDelegates: appLocalizationsDelegates,
-          supportedLocales: const <Locale>[Locale('fr'), Locale('en'), Locale('ar')],
+          supportedLocales: const <Locale>[
+            Locale('fr'),
+            Locale('en'),
+            Locale('ar'),
+          ],
           theme: container.read(lightThemeProvider),
           darkTheme: container.read(darkThemeProvider),
           themeMode: ThemeMode.light,
@@ -76,7 +90,7 @@ void main() {
     testWidgets('starts on the tasks branch', (WidgetTester tester) async {
       final GoRouter router = await pumpRouter(tester);
 
-      expect(router.state.uri.path, AppRoutes.tasks);
+      expect(_locationOf(router), AppRoutes.tasks);
       expect(find.byType(AppShell), findsOneWidget);
       // The desktop layout has no bottom bar: it uses the icon rail instead.
       expect(find.byType(NavigationBar), findsNothing);
@@ -98,7 +112,7 @@ void main() {
       ]) {
         router.go(location);
         await tester.pumpAndSettle();
-        expect(router.state.uri.path, location, reason: location);
+        expect(_locationOf(router), location, reason: location);
         expect(tester.takeException(), isNull, reason: location);
       }
     });
@@ -111,12 +125,12 @@ void main() {
       final String listLocation = AppRoutes.list('list-1');
       router.go(listLocation);
       await tester.pumpAndSettle();
-      expect(router.state.uri.path, listLocation);
+      expect(_locationOf(router), listLocation);
 
       final String taskLocation = AppRoutes.task('task-1');
       router.go(taskLocation);
       await tester.pumpAndSettle();
-      expect(router.state.uri.path, taskLocation);
+      expect(_locationOf(router), taskLocation);
     });
   });
 }

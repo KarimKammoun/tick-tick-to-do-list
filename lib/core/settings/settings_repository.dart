@@ -18,7 +18,8 @@ abstract interface class SettingsRepository {
 /// SharedPreferences is the smallest dependency able to persist two scalars on
 /// both Android and Windows, and it is the store recommended by the Flutter
 /// team. It is installed in step 0 only for the appearance settings agreed in
-/// Annexe D.1 ("le changement de thème est mémorisé"); task data lives in Drift.
+/// Annexe D.1 ("le changement de thème est mémorisé"); task data lives in
+/// Drift.
 class SharedPreferencesSettingsRepository implements SettingsRepository {
   SharedPreferencesSettingsRepository(this._preferences);
 

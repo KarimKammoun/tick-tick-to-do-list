@@ -29,9 +29,9 @@ class DriftTagRepository implements TagRepository {
   @override
   Stream<List<Tag>> watchAll() {
     final Selectable<TagRow> query = _db.select(_db.tags)
-      ..where((TagRow row) => row.deletedAt.isNull())
-      ..orderBy(<OrderClauseGenerator<TagRow>>[
-        (TagRow row) => OrderingTerm.asc(row.name),
+      ..where(($TagsTable row) => row.deletedAt.isNull())
+      ..orderBy(<OrderClauseGenerator<$TagsTable>>[
+        ($TagsTable row) => OrderingTerm.asc(row.name),
       ]);
     return query.watch().map(
           (List<TagRow> rows) => rows
@@ -78,9 +78,13 @@ class DriftTagRepository implements TagRepository {
   @override
   Future<void> delete(String id) async {
     final DateTime now = DateTime.now().toUtc();
-    await (_db.update(_db.tags)..where((TagRow row) => row.id.equals(id)))
+    await (_db.update(_db.tags)
+          ..where(($TagsTable row) => row.id.equals(id)))
         .write(
-      TagsCompanion(deletedAt: Value<DateTime>(now), updatedAt: Value<DateTime>(now)),
+      TagsCompanion(
+        deletedAt: Value<DateTime>(now),
+        updatedAt: Value<DateTime>(now),
+      ),
     );
   }
 }

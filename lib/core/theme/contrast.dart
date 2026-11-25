@@ -45,7 +45,8 @@ abstract final class Contrast {
   static Color readable(Color foreground, Color background,
       {double minRatio = minTextRatio}) {
     final bool lighten = relativeLuminance(background) < 0.5;
-    final Color target = lighten ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+    final Color target =
+        lighten ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
 
     if (ratio(foreground, background) >= minRatio) {
       return foreground;

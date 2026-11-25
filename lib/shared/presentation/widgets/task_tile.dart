@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_theme_extension.dart';
 import '../../../features/tasks/domain/task.dart';
+import '../../../features/tasks/domain/task_status.dart';
 import 'task_checkbox.dart';
 
 /// Base task row shared by the mobile list and the desktop list column
@@ -30,7 +31,8 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.colors;
-    final TextStyle? titleStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
+    final TextStyle? titleStyle =
+        Theme.of(context).textTheme.bodyLarge?.copyWith(
           decoration: task.status == TaskStatus.done
               ? TextDecoration.lineThrough
               : null,

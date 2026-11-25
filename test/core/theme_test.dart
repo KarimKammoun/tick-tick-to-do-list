@@ -115,9 +115,15 @@ void main() {
       });
     }
 
-    test('dark theme reports a dark brightness and light theme a light one', () {
-      expect(AppTheme.light(AppColors.defaultAccent).brightness, Brightness.light);
-      expect(AppTheme.dark(AppColors.defaultAccent).brightness, Brightness.dark);
+    test('dark theme reports a dark brightness and light a light one', () {
+      expect(
+        AppTheme.light(AppColors.defaultAccent).brightness,
+        Brightness.light,
+      );
+      expect(
+        AppTheme.dark(AppColors.defaultAccent).brightness,
+        Brightness.dark,
+      );
     });
 
     test('accent colour drives the primary colour scheme entry', () {

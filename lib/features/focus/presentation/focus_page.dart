@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/localization/localization_providers.dart';
 import '../../../shared/presentation/widgets/page_scaffold.dart';
 
-/// FocusPage placeholder: the screen arrives in a later step (see docs/PROGRESS.md).
+/// FocusPage placeholder: the screen arrives in a later step
+/// (see docs/PROGRESS.md).
 class FocusPage extends StatelessWidget {
   const FocusPage({super.key});
 

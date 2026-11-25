@@ -8,7 +8,8 @@ abstract interface class IdGenerator {
 /// RFC 4122 version 4 UUID generator.
 ///
 /// Implemented locally (30 lines) instead of adding the `uuid` package: the
-/// dependency list stays as agreed in the spec, and the generator is injectable,
+/// dependency list stays as agreed in the spec, and the generator is
+/// injectable,
 /// which the tests rely on for deterministic identifiers.
 class UuidGenerator implements IdGenerator {
   UuidGenerator({Random? random}) : _random = random ?? Random.secure();

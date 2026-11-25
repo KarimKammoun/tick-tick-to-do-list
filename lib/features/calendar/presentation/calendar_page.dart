@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/localization/localization_providers.dart';
 import '../../../shared/presentation/widgets/page_scaffold.dart';
 
-/// CalendarPage placeholder: the screen arrives in a later step (see docs/PROGRESS.md).
+/// CalendarPage placeholder: the screen arrives in a later step
+/// (see docs/PROGRESS.md).
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
 

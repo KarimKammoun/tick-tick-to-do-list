@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/localization/localization_providers.dart';
 import '../../../shared/presentation/widgets/page_scaffold.dart';
 
 /// Task detail placeholder (Annexe B.1 mobile sheet, Annexe C.8 desktop panel).

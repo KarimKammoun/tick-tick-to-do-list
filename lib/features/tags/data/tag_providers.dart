@@ -9,6 +9,7 @@ final Provider<TagRepository> tagRepositoryProvider =
   return DriftTagRepository(ref.watch(appDatabaseProvider));
 });
 
-final StreamProvider<List<Tag>> tagsProvider = StreamProvider<List<Tag>>((Ref ref) {
+final StreamProvider<List<Tag>> tagsProvider =
+    StreamProvider<List<Tag>>((Ref ref) {
   return ref.watch(tagRepositoryProvider).watchAll();
 });

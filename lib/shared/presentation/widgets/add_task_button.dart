@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/localization/localization_providers.dart';
 import '../../../core/theme/app_spacing.dart';
 
 /// Floating "+" button shared by the list pages (Annexe A.5).

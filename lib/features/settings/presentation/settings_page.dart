@@ -21,7 +21,8 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppSettings settings = ref.watch(appSettingsProvider);
-    final AppSettingsController controller = ref.read(appSettingsProvider.notifier);
+    final AppSettingsController controller =
+        ref.read(appSettingsProvider.notifier);
     final AppLocalizations l10n = context.l10n;
 
     return PageScaffold(
@@ -76,7 +77,8 @@ class SettingsPage extends ConsumerWidget {
                 _LanguageTile(
                   label: l10n.settingsLanguageSystem,
                   isSelected: ref.watch(appLocaleProvider) == null,
-                  onTap: () => ref.read(appLocaleProvider.notifier).state = null,
+                  onTap: () =>
+                      ref.read(appLocaleProvider.notifier).state = null,
                 ),
                 _LanguageTile(
                   label: l10n.settingsLanguageFrench,

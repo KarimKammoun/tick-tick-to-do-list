@@ -1,7 +1,8 @@
 import 'package:drift/drift.dart';
 
 /// Columns shared by every synchronisable row (spec section 3): the primary key
-/// is a UUID generated on the device, and every row carries the `updated_at` and
+/// is a UUID generated on the device, and every row carries the `updated_at`
+/// and
 /// `deleted_at` timestamps used by the last-write-wins synchronisation.
 mixin SyncColumns on Table {
   /// Device generated UUID v4. Uniqueness and shape are enforced by the
@@ -33,13 +34,15 @@ class Folders extends Table with SyncColumns {
   TextColumn get name => text().withLength(min: 1, max: 200)();
 
   /// A collapsed folder hides its lists in the sidebar.
-  BoolColumn get isCollapsed => boolean().withDefault(const Constant<bool>(false))();
+  BoolColumn get isCollapsed =>
+      boolean().withDefault(const Constant<bool>(false))();
 
   @override
   Set<Column<Object>> get primaryKey => <Column<Object>>{id};
 }
 
-/// List of tasks, or notebook when [ListType.notes] (`lists` in spec section 4).
+/// List of tasks, or notebook when [ListType.notes] (`lists` in spec section
+/// 4).
 @DataClassName('TaskListRow')
 class Lists extends Table with SyncColumns {
   TextColumn get userId => text().nullable()();
@@ -61,8 +64,10 @@ class Lists extends Table with SyncColumns {
   TextColumn get defaultView =>
       text().withDefault(const Constant<String>('list'))();
 
-  BoolColumn get isArchived => boolean().withDefault(const Constant<bool>(false))();
-  BoolColumn get isShared => boolean().withDefault(const Constant<bool>(false))();
+  BoolColumn get isArchived =>
+      boolean().withDefault(const Constant<bool>(false))();
+  BoolColumn get isShared =>
+      boolean().withDefault(const Constant<bool>(false))();
 
   @override
   Set<Column<Object>> get primaryKey => <Column<Object>>{id};
@@ -92,10 +97,13 @@ class Tasks extends Table with SyncColumns {
   TextColumn get parentId =>
       text().nullable().references(Tasks, #id, onDelete: KeyAction.cascade)();
   TextColumn get sectionId =>
-      text().nullable().references(Sections, #id, onDelete: KeyAction.setNull)();
+      text()
+          .nullable()
+          .references(Sections, #id, onDelete: KeyAction.setNull)();
 
   TextColumn get title => text().withLength(min: 1, max: 500)();
-  TextColumn get description => text().withDefault(const Constant<String>(''))();
+  TextColumn get description =>
+      text().withDefault(const Constant<String>(''))();
 
   /// `todo`, `done` or `abandoned` (see [TaskStatus]).
   TextColumn get status => text().withDefault(const Constant<String>('todo'))();
@@ -105,7 +113,8 @@ class Tasks extends Table with SyncColumns {
 
   DateTimeColumn get startAt => dateTime().nullable()();
   DateTimeColumn get dueAt => dateTime().nullable()();
-  BoolColumn get isAllDay => boolean().withDefault(const Constant<bool>(false))();
+  BoolColumn get isAllDay =>
+      boolean().withDefault(const Constant<bool>(false))();
   TextColumn get timeZone => text().nullable()();
 
   /// Recurrence rule in iCalendar RRULE format, e.g. `FREQ=WEEKLY;BYDAY=MO`.
@@ -121,7 +130,8 @@ class Tasks extends Table with SyncColumns {
       integer().withDefault(const Constant<int>(0))();
 
   DateTimeColumn get completedAt => dateTime().nullable()();
-  BoolColumn get isPinned => boolean().withDefault(const Constant<bool>(false))();
+  BoolColumn get isPinned =>
+      boolean().withDefault(const Constant<bool>(false))();
 
   /// Creation timestamp, kept apart from [updatedAt].
   DateTimeColumn get createdAt =>

@@ -29,18 +29,12 @@ part 'app_database.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase(DatabaseConnection connection) : super(connection.open());
 
-  /// Opens the database on an explicit executor (in-memory database of the
-  /// unit tests).
-  AppDatabase.withExecutor(QueryExecutor executor) : super(executor);
-
   @override
   int get schemaVersion => 1;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (Migrator migrator) async {
-          await migrator.createAll();
-        },
+        onCreate: (Migrator migrator) => migrator.createAll(),
         beforeOpen: (OpeningDetails details) async {
           // Foreign keys are off by default in SQLite and must be enabled per
           // connection for `onDelete` actions to run.

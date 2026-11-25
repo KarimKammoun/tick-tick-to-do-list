@@ -57,7 +57,7 @@ Ce dépôt construit **TaskFlow** (Flutter, Android + Windows) étape par étape
 
 ## Internationalisation
 
-- `flutter gen-l10n` régénère `lib/l10n/generated/app_localizations.dart`, versionné ici pour que `flutter analyze` fonctionne sans étape de génération. Les widgets importent `core/localization/localization_providers.dart` (qui réexporte la classe générée), jamais le fichier généré directement.
+- `flutter gen-l10n` régénère `lib/l10n/generated/app_localizations*.dart`, versionnés ici pour que `flutter analyze` fonctionne sans étape de génération. Les widgets importent `core/localization/localization_providers.dart` (qui réexporte la classe générée), jamais le fichier généré directement.
 - Locales : `fr`, `en`, `ar`. L'arabe se lit de droite à gauche : ne jamais coder `left`/`right` en dur, utiliser `EdgeInsetsDirectional`, `AlignmentDirectional`, ou les helpers directionnels.
 - Ne pas s'appuyer sur le texte des captures de référence : le contenu des écrans vient exclusivement des ARB.
 

@@ -1,11 +1,12 @@
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:taskflow/core/database/app_database.dart';
+import 'package:taskflow/core/database/database_connection_memory.dart';
 
-/// Opens an in-memory database with the production migration strategy, so the
-/// schema, the foreign keys and the defaults behave exactly like the app.
+/// Opens an in-memory database through the same connection abstraction as the
+/// application, so that the migrations, the foreign keys and the defaults of
+/// the tests behave exactly like the real ones.
 AppDatabase openTestDatabase() {
-  return AppDatabase.withExecutor(NativeDatabase.memory());
+  return AppDatabase(const InMemoryDatabaseConnection());
 }
 
 /// Column names of an sqlite table, for the schema assertions.

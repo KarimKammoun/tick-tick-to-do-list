@@ -157,7 +157,9 @@ class AppColors {
         ? rail
         : Color.alphaBlend(
             accent.withValues(alpha: brightnessIsDark ? 0.32 : 0.86),
-            brightnessIsDark ? const Color(0xFF101314) : const Color(0xFF000000),
+            brightnessIsDark
+                ? const Color(0xFF101314)
+                : const Color(0xFF000000),
           );
 
     return AppColors(

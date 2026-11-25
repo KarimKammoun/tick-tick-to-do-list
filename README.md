@@ -59,7 +59,9 @@ flutter gen-l10n                # régénère lib/l10n/generated/ après éditio
 dart run build_runner build --delete-conflicting-outputs   # régénère la partie Drift
 ```
 
-La CI (.github/workflows/ci.yml) exécute le formatage, `flutter analyze` et `flutter test` à chaque push et à chaque pull request.
+Les `flutter test` couvrent la couche données (schéma, dossiers, listes, étiquettes, tâches), les thèmes et le contraste, la persistance des réglages, les modèles du domaine, la navigation et la coque responsive (mobile, tablette, bureau).
+
+Le workflow de CI prêt à l'emploi est `docs/ci/ci.yml` (voir plus bas).
 
 ## Structure
 
@@ -99,7 +101,7 @@ dans les deux thèmes.
 - Aucune création de tâche, rappel, récurrence ni synchronisation : étapes 1 à 4.
 - `supabase_flutter` est installé mais pas encore initialisé.
 - `lib/core/database/app_database.g.dart` (sortie de `drift_dev`) et
-  `lib/l10n/generated/app_localizations.dart` (sortie de `gen-l10n`) sont
+  `lib/l10n/generated/app_localizations*.dart` (sortie de `gen-l10n`) sont
   versionnés : l'environnement de génération n'a pas de SDK Dart. Les deux
   s'obtiennent avec `dart run build_runner build --delete-conflicting-outputs`
   et `flutter gen-l10n`, et le fichier Drift se régénère aussi avec

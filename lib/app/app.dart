@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -50,11 +49,7 @@ class TaskFlowApp extends ConsumerWidget {
   }
 }
 
-/// Delegates used by the application and by the widget tests.
-const List<LocalizationsDelegate<Object>> appLocalizationsDelegates =
-    <LocalizationsDelegate<Object>>[
-  AppLocalizations.delegate,
-  GlobalMaterialLocalizations.delegate,
-  GlobalWidgetsLocalizations.delegate,
-  GlobalCupertinoLocalizations.delegate,
-];
+/// Delegates used by the application and by the widget tests: the generated
+/// bundle already lists the Material, Cupertino and Widgets delegates.
+const List<LocalizationsDelegate<dynamic>> appLocalizationsDelegates =
+    AppLocalizations.localizationsDelegates;

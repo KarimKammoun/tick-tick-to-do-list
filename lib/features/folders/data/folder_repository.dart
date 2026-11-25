@@ -30,10 +30,10 @@ class DriftFolderRepository implements FolderRepository {
   @override
   Stream<List<Folder>> watchAll() {
     final Selectable<FolderRow> query = _db.select(_db.folders)
-      ..where((FolderRow row) => row.deletedAt.isNull())
-      ..orderBy(<OrderClauseGenerator<FolderRow>>[
-        (FolderRow row) => OrderingTerm.asc(row.sortOrder),
-        (FolderRow row) => OrderingTerm.asc(row.name),
+      ..where(($FoldersTable row) => row.deletedAt.isNull())
+      ..orderBy(<OrderClauseGenerator<$FoldersTable>>[
+        ($FoldersTable row) => OrderingTerm.asc(row.sortOrder),
+        ($FoldersTable row) => OrderingTerm.asc(row.name),
       ]);
     return query.watch().map(
           (List<FolderRow> rows) => rows
@@ -87,7 +87,8 @@ class DriftFolderRepository implements FolderRepository {
       );
 
   Future<void> _touch(String id, FoldersCompanion changes) async {
-    await (_db.update(_db.folders)..where((FolderRow row) => row.id.equals(id)))
+    await (_db.update(_db.folders)
+          ..where(($FoldersTable row) => row.id.equals(id)))
         .write(
       changes.copyWith(updatedAt: Value<DateTime>(DateTime.now().toUtc())),
     );

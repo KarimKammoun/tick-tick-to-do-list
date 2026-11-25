@@ -44,15 +44,15 @@ class DriftListRepository implements ListRepository {
   @override
   Stream<List<TaskList>> watchAll({bool includeArchived = false}) {
     final Selectable<TaskListRow> query = _db.select(_db.lists)
-      ..where((TaskListRow row) {
+      ..where(($ListsTable row) {
         final Expression<bool> alive = row.deletedAt.isNull();
         return includeArchived
             ? alive
             : alive & row.isArchived.equals(false);
       })
-      ..orderBy(<OrderClauseGenerator<TaskListRow>>[
-        (TaskListRow row) => OrderingTerm.asc(row.sortOrder),
-        (TaskListRow row) => OrderingTerm.asc(row.name),
+      ..orderBy(<OrderClauseGenerator<$ListsTable>>[
+        ($ListsTable row) => OrderingTerm.asc(row.sortOrder),
+        ($ListsTable row) => OrderingTerm.asc(row.name),
       ]);
     return query.watch().map(
           (List<TaskListRow> rows) =>
@@ -63,7 +63,7 @@ class DriftListRepository implements ListRepository {
   @override
   Future<TaskList?> findById(String id) async {
     final TaskListRow? row = await (_db.select(_db.lists)
-          ..where((TaskListRow row) => row.id.equals(id)))
+          ..where(($ListsTable row) => row.id.equals(id)))
         .getSingleOrNull();
     return row == null ? null : _toDomain(row);
   }
@@ -114,7 +114,8 @@ class DriftListRepository implements ListRepository {
     bool? isArchived,
     ListDefaultView? defaultView,
   }) async {
-    await (_db.update(_db.lists)..where((TaskListRow row) => row.id.equals(id)))
+    await (_db.update(_db.lists)
+          ..where(($ListsTable row) => row.id.equals(id)))
         .write(
       ListsCompanion(
         name: name == null ? const Value<String>.absent() : Value<String>(name),
@@ -141,7 +142,8 @@ class DriftListRepository implements ListRepository {
   @override
   Future<void> delete(String id) async {
     final DateTime now = DateTime.now().toUtc();
-    await (_db.update(_db.lists)..where((TaskListRow row) => row.id.equals(id)))
+    await (_db.update(_db.lists)
+          ..where(($ListsTable row) => row.id.equals(id)))
         .write(
           ListsCompanion(
             deletedAt: Value<DateTime>(now),
@@ -150,7 +152,7 @@ class DriftListRepository implements ListRepository {
         );
     // Removing a list moves its tasks to the Inbox instead of losing them.
     await (_db.update(_db.tasks)
-          ..where((TaskRow row) => row.listId.equals(id)))
+          ..where(($TasksTable row) => row.listId.equals(id)))
         .write(const TasksCompanion(listId: Value<String?>(null)));
   }
 

@@ -93,7 +93,8 @@ void main() {
         color: const Color(0xFF4772FA),
         icon: 'list',
       );
-      final Task task = await tasks.create(title: 'Belongs to list', listId: list.id);
+      final Task task =
+          await tasks.create(title: 'Belongs to list', listId: list.id);
 
       await lists.delete(list.id);
 
