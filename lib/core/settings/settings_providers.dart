@@ -27,6 +27,13 @@ class AppSettingsController extends Notifier<AppSettings> {
   Future<void> setDensity(AppDensity density) =>
       _update(state.copyWith(density: density));
 
+  /// Language of the interface; `null` means "follow the system language".
+  Future<void> setLanguage(String? languageCode) => _update(
+        languageCode == null
+            ? state.copyWith(clearLanguage: true)
+            : state.copyWith(languageCode: languageCode),
+      );
+
   Future<void> _update(AppSettings settings) async {
     state = settings;
     await ref.read(settingsRepositoryProvider).write(settings);
@@ -38,12 +45,28 @@ final NotifierProvider<AppSettingsController, AppSettings> appSettingsProvider =
   AppSettingsController.new,
 );
 
-/// Active theme data, rebuilt whenever the theme mode or accent changes.
-final Provider<ThemeData> lightThemeProvider = Provider<ThemeData>(
-  (Ref ref) => AppTheme.light(ref.watch(appSettingsProvider).accentColor),
-);
+/// Active theme data, rebuilt whenever the accent or the density changes.
+final Provider<ThemeData> lightThemeProvider = Provider<ThemeData>((Ref ref) {
+  final AppSettings settings = ref.watch(appSettingsProvider);
+  return AppTheme.light(
+    settings.accentColor,
+    density: settings.density.visualDensity,
+  );
+});
 
 /// Active dark theme data.
-final Provider<ThemeData> darkThemeProvider = Provider<ThemeData>(
-  (Ref ref) => AppTheme.dark(ref.watch(appSettingsProvider).accentColor),
-);
+final Provider<ThemeData> darkThemeProvider = Provider<ThemeData>((Ref ref) {
+  final AppSettings settings = ref.watch(appSettingsProvider);
+  return AppTheme.dark(
+    settings.accentColor,
+    density: settings.density.visualDensity,
+  );
+});
+
+/// Locale override chosen in Settings > Language, read from the remembered
+/// settings so that the choice survives a restart; `null` follows the system
+/// language.
+final Provider<Locale?> appLocaleProvider = Provider<Locale?>((Ref ref) {
+  final String? languageCode = ref.watch(appSettingsProvider).languageCode;
+  return languageCode == null ? null : Locale(languageCode);
+});

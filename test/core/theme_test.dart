@@ -162,6 +162,22 @@ void main() {
       );
     });
 
+    test('the density choice reaches ThemeData', () {
+      // The Settings screen offers "Confortable" and "Compacte"; the theme has
+      // to carry the choice, otherwise the control would do nothing.
+      expect(
+        AppTheme.light(
+          AppColors.defaultAccent,
+          density: VisualDensity.compact,
+        ).visualDensity,
+        VisualDensity.compact,
+      );
+      expect(
+        AppTheme.dark(AppColors.defaultAccent).visualDensity,
+        VisualDensity.standard,
+      );
+    });
+
     test('bottom bar hides its labels, as required on mobile', () {
       final ThemeData theme = AppTheme.light(AppColors.defaultAccent);
       expect(

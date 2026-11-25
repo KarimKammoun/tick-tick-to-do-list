@@ -47,7 +47,9 @@ flutter run -d windows
 1. Ouvrir l'application, appuyer sur l'icône la plus à droite de la barre du bas (« Plus ») → **Paramètres**.
 2. Dans **Apparence**, choisir **Clair**, puis **Sombre**, puis **Système**.
 3. Vérifier la couleur d'accentuation (bleu par défaut, turquoise en option).
-4. Survivre à un redémarrage : le choix est mémorisé.
+4. Passer la **densité** en *Compacte* : les listes et les barres se resserrent.
+5. Choisir une **langue** (français, anglais, arabe) : l'interface se traduit, l'arabe passe en RTL.
+6. Survivre à un redémarrage : les quatre choix sont mémorisés.
 
 Les captures de référence se trouvent dans `docs/design/` (index : [`docs/design/README.md`](docs/design/README.md)).
 
@@ -73,7 +75,7 @@ lib/
 ├── core/                 # socle transverse : thème, réglages, base, i18n, IDs
 │   ├── database/         # tables Drift, connexions, providers
 │   ├── localization/     # locales supportées, extension context.l10n
-│   ├── settings/         # AppSettings + persistance (thème, accent, densité)
+│   ├── settings/         # AppSettings + persistance (thème, accent, densité, langue)
 │   └── theme/            # jetons Annexe D, thème, contraste WCAG
 ├── features/<domaine>/   # feature-first : data / domain / presentation
 │   ├── tasks/  lists/  folders/  tags/

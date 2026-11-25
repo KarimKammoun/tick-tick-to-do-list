@@ -24,6 +24,7 @@ void main() {
       expect(settings.themeMode, AppThemeMode.system);
       expect(settings.accentColor, AppColors.defaultAccent);
       expect(settings.density, AppDensity.comfortable);
+      expect(settings.languageCode, isNull);
       expect(settings.textScale, 1);
     });
 
@@ -38,6 +39,7 @@ void main() {
           themeMode: AppThemeMode.dark,
           accentColor: Color(0xFF3FA796),
           density: AppDensity.compact,
+          languageCode: 'ar',
           textScale: 1.2,
         ),
       );
@@ -47,7 +49,39 @@ void main() {
       expect(reloaded.themeMode, AppThemeMode.dark);
       expect(reloaded.accentColor, const Color(0xFF3FA796));
       expect(reloaded.density, AppDensity.compact);
+      expect(reloaded.languageCode, 'ar');
       expect(reloaded.textScale, 1.2);
+    });
+
+    test('going back to the system language clears the stored code', () async {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      final SettingsRepository repository =
+          SharedPreferencesSettingsRepository(preferences);
+
+      await repository.write(const AppSettings(languageCode: 'fr'));
+      expect(repository.read().languageCode, 'fr');
+
+      await repository.write(
+        repository.read().copyWith(clearLanguage: true),
+      );
+      final AppSettings reloaded =
+          SharedPreferencesSettingsRepository(preferences).read();
+      expect(reloaded.languageCode, isNull);
+      expect(preferences.getString('settings.languageCode'), isNull);
+    });
+
+    test('drops a stored language the application does not speak', () async {
+      SharedPreferences.setMockInitialValues(<String, Object>{
+        'settings.languageCode': 'de',
+      });
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+
+      expect(
+        SharedPreferencesSettingsRepository(preferences).read().languageCode,
+        isNull,
+      );
     });
 
     test('falls back to the defaults on an unknown value', () async {
@@ -63,6 +97,7 @@ void main() {
 
       expect(settings.themeMode, AppThemeMode.system);
       expect(settings.density, AppDensity.comfortable);
+      expect(settings.languageCode, isNull);
     });
   });
 
@@ -74,6 +109,15 @@ void main() {
 
       expect(updated.themeMode, AppThemeMode.light);
       expect(updated.accentColor, settings.accentColor);
+      expect(updated, isNot(settings));
+    });
+
+    test('copyWith keeps a language when the caller does not touch it', () {
+      const AppSettings settings = AppSettings(languageCode: 'ar');
+      final AppSettings updated =
+          settings.copyWith(density: AppDensity.compact);
+
+      expect(updated.languageCode, 'ar');
       expect(updated, isNot(settings));
     });
   });

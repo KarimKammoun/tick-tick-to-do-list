@@ -14,7 +14,8 @@ import 'widgets/theme_mode_selector.dart';
 /// Settings > Appearance (Annexe D.3).
 ///
 /// Step 0 implements the theme choice (Clair / Sombre / Système), the accent
-/// colour, the density and the language; both are persisted locally.
+/// colour, the density and the language. All four are persisted locally, so the
+/// choice survives a restart.
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
 
@@ -76,30 +77,23 @@ class SettingsPage extends ConsumerWidget {
               children: <Widget>[
                 _LanguageTile(
                   label: l10n.settingsLanguageSystem,
-                  isSelected: ref.watch(appLocaleProvider) == null,
-                  onTap: () =>
-                      ref.read(appLocaleProvider.notifier).state = null,
+                  isSelected: settings.languageCode == null,
+                  onTap: () => controller.setLanguage(null),
                 ),
                 _LanguageTile(
                   label: l10n.settingsLanguageFrench,
-                  isSelected:
-                      ref.watch(appLocaleProvider)?.languageCode == 'fr',
-                  onTap: () => ref.read(appLocaleProvider.notifier).state =
-                      const Locale('fr'),
+                  isSelected: settings.languageCode == 'fr',
+                  onTap: () => controller.setLanguage('fr'),
                 ),
                 _LanguageTile(
                   label: l10n.settingsLanguageEnglish,
-                  isSelected:
-                      ref.watch(appLocaleProvider)?.languageCode == 'en',
-                  onTap: () => ref.read(appLocaleProvider.notifier).state =
-                      const Locale('en'),
+                  isSelected: settings.languageCode == 'en',
+                  onTap: () => controller.setLanguage('en'),
                 ),
                 _LanguageTile(
                   label: l10n.settingsLanguageArabic,
-                  isSelected:
-                      ref.watch(appLocaleProvider)?.languageCode == 'ar',
-                  onTap: () => ref.read(appLocaleProvider.notifier).state =
-                      const Locale('ar'),
+                  isSelected: settings.languageCode == 'ar',
+                  onTap: () => controller.setLanguage('ar'),
                 ),
               ],
             ),

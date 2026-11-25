@@ -11,14 +11,20 @@ import 'contrast.dart';
 /// screen ever needs to know which theme is active.
 abstract final class AppTheme {
   /// Light theme built from the Annexe D.2 light tokens.
-  static ThemeData light(Color accent) =>
-      _build(AppColors.light().harmonized(accent));
+  static ThemeData light(
+    Color accent, {
+    VisualDensity density = VisualDensity.standard,
+  }) =>
+      _build(AppColors.light().harmonized(accent), density);
 
   /// Dark theme built from the Annexe D.2 dark tokens.
-  static ThemeData dark(Color accent) =>
-      _build(AppColors.dark().harmonized(accent));
+  static ThemeData dark(
+    Color accent, {
+    VisualDensity density = VisualDensity.standard,
+  }) =>
+      _build(AppColors.dark().harmonized(accent), density);
 
-  static ThemeData _build(AppColors colors) {
+  static ThemeData _build(AppColors colors, VisualDensity density) {
     final Color accent = colors.accentedColor;
     final Brightness brightness =
         colors.brightnessIsDark ? Brightness.dark : Brightness.light;
@@ -59,7 +65,7 @@ abstract final class AppTheme {
       textTheme: textTheme,
       extensions: <ThemeExtension<dynamic>>[AppColorsTheme(colors)],
       splashFactory: InkSparkle.splashFactory,
-      visualDensity: VisualDensity.standard,
+      visualDensity: density,
       appBarTheme: AppBarThemeData(
         backgroundColor: colors.background,
         foregroundColor: colors.textPrimary,

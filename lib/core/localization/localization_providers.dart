@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 
@@ -19,8 +18,3 @@ const List<Locale> appSupportedLocales = AppLocalizations.supportedLocales;
 extension AppLocalizationsContext on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this);
 }
-
-/// Locale override used by the language selector (step 7); `null` follows the
-/// system locale.
-final StateProvider<Locale?> appLocaleProvider =
-    StateProvider<Locale?>((Ref ref) => null);

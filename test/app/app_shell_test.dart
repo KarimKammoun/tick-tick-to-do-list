@@ -169,5 +169,46 @@ void main() {
         theme.colorScheme.primary,
       );
     });
+
+    testWidgets('the compact density reaches the theme', (
+      WidgetTester tester,
+    ) async {
+      await pumpApp(tester, const Size(500, 1000));
+
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(NavigationBar)),
+        listen: false,
+      );
+      await container
+          .read(appSettingsProvider.notifier)
+          .setDensity(AppDensity.compact);
+      await tester.pumpAndSettle();
+
+      final ThemeData theme =
+          Theme.of(tester.element(find.byType(NavigationBar)));
+      expect(theme.visualDensity, VisualDensity.compact);
+    });
+
+    testWidgets('choosing a language translates the interface', (
+      WidgetTester tester,
+    ) async {
+      // The desktop layout shows the sidebar entry, which is the cheapest
+      // visible string to check outside of the bottom bar (icon only).
+      await pumpApp(tester, const Size(1400, 900));
+      expect(find.text('Settings'), findsWidgets);
+
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(TaskFlowApp)),
+        listen: false,
+      );
+      // The choice goes through the remembered settings, not through a
+      // transient provider, so that it survives a restart.
+      await container.read(appSettingsProvider.notifier).setLanguage('fr');
+      await tester.pumpAndSettle();
+
+      expect(container.read(appSettingsProvider).languageCode, 'fr');
+      expect(find.text('Paramètres'), findsWidgets);
+      expect(find.text('Settings'), findsNothing);
+    });
   });
 }

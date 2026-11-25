@@ -26,6 +26,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   final SharedPreferences _preferences;
 
   static const String _themeKey = 'settings.themeMode';
+  static const String _languageKey = 'settings.languageCode';
   static const String _accentKey = 'settings.accentColor';
   static const String _densityKey = 'settings.density';
   static const String _textScaleKey = 'settings.textScale';
@@ -35,6 +36,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
     final String? themeName = _preferences.getString(_themeKey);
     final int? accentValue = _preferences.getInt(_accentKey);
     final String? densityName = _preferences.getString(_densityKey);
+    final String? languageCode = _preferences.getString(_languageKey);
     final double? textScale = _preferences.getDouble(_textScaleKey);
 
     return AppSettings(
@@ -49,6 +51,12 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
         (AppDensity density) => density.name == densityName,
         orElse: () => AppDensity.comfortable,
       ),
+      // An unknown language code (an old build, a hand-edited file) is dropped
+      // so that the application falls back to the system language instead of
+      // asking for a locale it cannot load.
+      languageCode: const <String>['fr', 'en', 'ar'].contains(languageCode)
+          ? languageCode
+          : null,
       textScale: textScale ?? 1,
     );
   }
@@ -58,6 +66,12 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
     await _preferences.setString(_themeKey, settings.themeMode.name);
     await _preferences.setInt(_accentKey, settings.accentColor.toARGB32());
     await _preferences.setString(_densityKey, settings.density.name);
+    final String? languageCode = settings.languageCode;
+    if (languageCode == null) {
+      await _preferences.remove(_languageKey);
+    } else {
+      await _preferences.setString(_languageKey, languageCode);
+    }
     await _preferences.setDouble(_textScaleKey, settings.textScale);
   }
 }
