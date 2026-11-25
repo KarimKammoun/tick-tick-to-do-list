@@ -1,11 +1,6 @@
-include: package:flutter_lints/flutter.yaml
-
 # TEMPORARY DIAGNOSTIC - to be reverted.
 analyzer:
   exclude:
     - "**/*.g.dart"
     - "lib/l10n/generated/**"
     - "test/**"
-  errors:
-    deprecated_member_use: ignore
-    deprecated_member_use_from_same_package: ignore
