@@ -30,7 +30,12 @@ Ce dépôt construit **TaskFlow** (Flutter, Android + Windows) étape par étape
 
 ## Conventions Dart / Flutter
 
-- Dart 3, null-safety, `analysis_options.yaml` avec `strict-casts` et `strict-raw-types`.
+- Dart 3, null-safety ; `analysis_options.yaml` reprend `flutter_lints` sans règle
+  supplémentaire (elles sont déjà toutes dans le paquet). `strict-casts` et
+  `strict-raw-types` ne sont **pas** encore activés : ils changent le typage
+  implicite de tout le code et seront activés à l'étape 1, en même temps que la
+  première passe `flutter analyze` réelle (aucun SDK Dart dans l'environnement
+  de génération de l'étape 0).
 - Toujours typer explicitement les variables locales, les paramètres et les retours : `final String name = ...;`
 - Types génériques explicites pour les collections : `<String>[]`, `<String, Object>{}`.
 - Immuabilité : `final`, constructeurs `const`, `copyWith` ; pas de `setState` dans les pages, l'état vit dans Riverpod.

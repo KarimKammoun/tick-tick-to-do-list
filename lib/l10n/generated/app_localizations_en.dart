@@ -17,8 +17,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'TaskFlow';
 
   @override
-  String get appTagline => 'Tasks, calendar and focus in one place.';
-
   @override
   String get shellTabTasks => 'Tasks';
 
@@ -35,11 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shellTabMore => 'More';
 
   @override
-  String get shellOpenMenu => 'Open menu';
-
   @override
-  String get shellCloseMenu => 'Close menu';
-
   @override
   String get navInbox => 'Inbox';
 
@@ -59,8 +53,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navLists => 'Lists';
 
   @override
-  String get navFolders => 'Folders';
-
   @override
   String get navNoLists => 'No list yet';
 
@@ -179,17 +171,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSoon => 'Coming in a later step';
 
   @override
-  String get commonAdd => 'Add';
-
   @override
   String get commonAddTask => 'Add task';
 
   @override
-  String get commonCancel => 'Cancel';
-
   @override
-  String get commonClose => 'Close';
-
   @override
   String get errorGeneric => 'Something went wrong.';
 }

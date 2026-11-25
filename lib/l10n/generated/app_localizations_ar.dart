@@ -17,8 +17,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'TaskFlow';
 
   @override
-  String get appTagline => 'المهام والتقويم والتركيز في مكان واحد.';
-
   @override
   String get shellTabTasks => 'المهام';
 
@@ -35,11 +33,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get shellTabMore => 'المزيد';
 
   @override
-  String get shellOpenMenu => 'فتح القائمة';
-
   @override
-  String get shellCloseMenu => 'إغلاق القائمة';
-
   @override
   String get navInbox => 'صندوق الوارد';
 
@@ -59,8 +53,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navLists => 'القوائم';
 
   @override
-  String get navFolders => 'المجلدات';
-
   @override
   String get navNoLists => 'لا توجد قائمة';
 
@@ -179,17 +171,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSoon => 'يتوفر في مرحلة لاحقة';
 
   @override
-  String get commonAdd => 'إضافة';
-
   @override
   String get commonAddTask => 'إضافة مهمة';
 
   @override
-  String get commonCancel => 'إلغاء';
-
   @override
-  String get commonClose => 'إغلاق';
-
   @override
   String get errorGeneric => 'حدث خطأ ما.';
 }

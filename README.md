@@ -11,7 +11,9 @@ Application de gestion de tâches **Android + Windows** (Flutter), inspirée de 
 
 ## Prérequis
 
-- **Flutter** stable (canal `stable`, Dart ≥ 3.5) : <https://docs.flutter.dev/get-started/install>
+- **Flutter** stable ≥ 3.35 (Dart ≥ 3.8) : <https://docs.flutter.dev/get-started/install>
+  — 3.35 est la première version stable qui expose `AppBarThemeData` et
+  `InputDecorationThemeData`, utilisés par `lib/core/theme/app_theme.dart`.
 - **Android** : Android Studio + SDK Android + un appareil ou un émulateur
 - **Windows** : Visual Studio 2022 avec la charge « Desktop development with C++ »
 - Vérifier l'installation : `flutter doctor`

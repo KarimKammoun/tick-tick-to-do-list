@@ -60,12 +60,6 @@ abstract class AppLocalizations {
   /// **'TaskFlow'**
   String get appTitle;
 
-  /// Short subtitle under the application name on the splash/placeholder screens.
-  ///
-  /// In en, this message translates to:
-  /// **'Tasks, calendar and focus in one place.'**
-  String get appTagline;
-
   /// Mobile bottom bar, first icon. Icon only on the bar, the string is used as tooltip and for screen readers.
   ///
   /// In en, this message translates to:
@@ -95,18 +89,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More'**
   String get shellTabMore;
-
-  /// Tooltip of the drawer button.
-  ///
-  /// In en, this message translates to:
-  /// **'Open menu'**
-  String get shellOpenMenu;
-
-  /// Semantic label of the drawer close button.
-  ///
-  /// In en, this message translates to:
-  /// **'Close menu'**
-  String get shellCloseMenu;
 
   /// Smart view holding the tasks without a list.
   ///
@@ -143,12 +125,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lists'**
   String get navLists;
-
-  /// Sidebar section header above the folders.
-  ///
-  /// In en, this message translates to:
-  /// **'Folders'**
-  String get navFolders;
 
   /// Empty state of the sidebar list section.
   ///
@@ -384,29 +360,11 @@ abstract class AppLocalizations {
   /// **'Coming in a later step'**
   String get settingsSoon;
 
-  /// Generic add action.
-  ///
-  /// In en, this message translates to:
-  /// **'Add'**
-  String get commonAdd;
-
   /// Floating action button tooltip.
   ///
   /// In en, this message translates to:
   /// **'Add task'**
   String get commonAddTask;
-
-  /// Generic cancel action.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get commonCancel;
-
-  /// Generic close action.
-  ///
-  /// In en, this message translates to:
-  /// **'Close'**
-  String get commonClose;
 
   /// Fallback error message.
   ///

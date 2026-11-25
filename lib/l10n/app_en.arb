@@ -4,10 +4,6 @@
   "@appTitle": {
     "description": "Application name. Not translated, kept in every ARB file."
   },
-  "appTagline": "Tasks, calendar and focus in one place.",
-  "@appTagline": {
-    "description": "Short subtitle under the application name on the splash/placeholder screens."
-  },
   "shellTabTasks": "Tasks",
   "@shellTabTasks": {
     "description": "Mobile bottom bar, first icon. Icon only on the bar, the string is used as tooltip and for screen readers."
@@ -27,14 +23,6 @@
   "shellTabMore": "More",
   "@shellTabMore": {
     "description": "Mobile bottom bar, fifth icon, opens the side menu."
-  },
-  "shellOpenMenu": "Open menu",
-  "@shellOpenMenu": {
-    "description": "Tooltip of the drawer button."
-  },
-  "shellCloseMenu": "Close menu",
-  "@shellCloseMenu": {
-    "description": "Semantic label of the drawer close button."
   },
   "navInbox": "Inbox",
   "@navInbox": {
@@ -59,10 +47,6 @@
   "navLists": "Lists",
   "@navLists": {
     "description": "Sidebar section header above the user lists."
-  },
-  "navFolders": "Folders",
-  "@navFolders": {
-    "description": "Sidebar section header above the folders."
   },
   "navNoLists": "No list yet",
   "@navNoLists": {
@@ -220,21 +204,9 @@
   "@settingsSoon": {
     "description": "Badge shown on settings that are not implemented yet."
   },
-  "commonAdd": "Add",
-  "@commonAdd": {
-    "description": "Generic add action."
-  },
   "commonAddTask": "Add task",
   "@commonAddTask": {
     "description": "Floating action button tooltip."
-  },
-  "commonCancel": "Cancel",
-  "@commonCancel": {
-    "description": "Generic cancel action."
-  },
-  "commonClose": "Close",
-  "@commonClose": {
-    "description": "Generic close action."
   },
   "errorGeneric": "Something went wrong.",
   "@errorGeneric": {

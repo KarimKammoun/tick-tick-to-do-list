@@ -51,7 +51,6 @@ abstract final class AppTheme {
     final TextTheme textTheme = _textTheme(colors);
 
     return ThemeData(
-      useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
       scaffoldBackgroundColor: colors.background,
@@ -61,7 +60,7 @@ abstract final class AppTheme {
       extensions: <ThemeExtension<dynamic>>[AppColorsTheme(colors)],
       splashFactory: InkSparkle.splashFactory,
       visualDensity: VisualDensity.standard,
-      appBarTheme: AppBarTheme(
+      appBarTheme: AppBarThemeData(
         backgroundColor: colors.background,
         foregroundColor: colors.textPrimary,
         surfaceTintColor: Colors.transparent,

@@ -26,6 +26,7 @@
 - Base Drift : `folders`, `lists`, `tasks` (`parent_id`, `status`, `priority`, RRULE, rappels JSON…), `tags`, `task_tags`, `sections`, toutes avec `id` UUID + `updated_at` + `deleted_at` (mixins `SyncColumns`), suppression logique, clés étrangères activées ; dépôts `Folder`, `List`, `Task`, `Tag` + providers Riverpod.
 - i18n : ARB `app_en.arb`, `app_fr.arb` (accord grammatical corrigé), `app_ar.arb` → `fr`, `en`, `ar` (RTL), aucune chaîne en dur.
 - Tests : base de données (schéma, CRUD, sous-tâches, suppression logique, tags), thème et contraste WCAG, réglages, domaine (UUID, priorités, rappels), coque mobile/bureau, navigation go_router, i18n (parité des clés, RTL).
+- Prérequis de version explicites dans `pubspec.yaml` : `sdk: ^3.8.0` et `flutter: ">=3.35.0"` (première stable exposant `AppBarThemeData` / `InputDecorationThemeData`, utilisés par le thème).
 - Dossiers `android/` (Kotlin, Gradle 9.5, AGP 9.3.1, `com.taskflow.taskflow`) et `windows/` (CMake + runner C++) générés depuis les templates officiels Flutter 3.50.1, icône applicative dessinée pour le projet (aucune reprise de la marque d'origine).
 - CI : `docs/ci/ci.yml` prêt à l'emploi (format, analyze, test). **Non actif** : le jeton GitHub de l'environnement de génération n'a pas la permission « workflows », donc aucun fichier `.github/workflows/` ne peut être poussé (voir décision 11).
 - `README.md`, `CLAUDE.md` créés.
@@ -43,7 +44,10 @@
 9. **Case à cocher** : contour coloré par la priorité et remplissage par la couleur de priorité quand elle est cochée (le cahier ne décrit que le contour).
 10. **Onglet « Plus » / icône du rail** : la 5ᵉ icône de la barre ouvre le tiroir latéral sur mobile (A4 : le tiroir n'a pas d'autre point d'entrée) et la page « Plus » sur bureau.
 11. **Aucun workflow GitHub Actions dans le dépôt pour l'instant** : le jeton de la session ne peut ni pousser `.github/workflows/` (« refusing to allow a GitHub App to create or update workflow ») ni déclencher un workflow. Le workflow prêt à l'emploi est écrit dans `docs/ci/ci.yml`, à copier par l'utilisateur ; la vérification de l'étape 0 se fait donc en local (`dart format`, `flutter analyze`, `flutter test`) plus le lancement manuel Android/Windows.
-12. **Code généré commité** (`app_database.g.dart`, `lib/l10n/generated/app_localizations*.dart`) : l'environnement de génération n'a ni Dart ni Flutter. `tool/generate_drift_code.py` reproduit la sortie de `drift_dev` pour ce schéma et documente cet écart ; il disparaît dès qu'un `build_runner` peut tourner sur la machine du développeur.
+12. **Sept clés ARB supprimées** (`appTagline`, `shellOpenMenu`, `shellCloseMenu`, `navFolders`, `commonAdd`, `commonCancel`, `commonClose`) : elles décrivaient des écrans pas encore écrits et n'étaient lues nulle part. `test/app/localization_test.dart` vérifie désormais que **chaque** clé de `app_en.arb` est lue dans `lib/` ou `test/`, donc une clé morte fait échouer les tests. Elles reviendront à l'étape qui en a besoin (le tiroir mobile a son propre bouton de fermeture fourni par `Drawer`).
+13. **Code généré commité** (`app_database.g.dart`, `lib/l10n/generated/app_localizations*.dart`) : l'environnement de génération n'a ni Dart ni Flutter. `tool/generate_drift_code.py` reproduit la sortie de `drift_dev` pour ce schéma et documente cet écart ; il disparaît dès qu'un `build_runner` peut tourner sur la machine du développeur.
+
+14. **`strict-casts` / `strict-raw-types` reportés à l'étape 1** : `CLAUDE.md` les annonçait, `analysis_options.yaml` ne les active pas. Les activer sans pouvoir lancer `flutter analyze` reviendrait à livrer un fichier non vérifié ; ils seront activés à la première exécution réelle de l'analyseur, avec le reste du code sous les yeux.
 
 ## Questions ouvertes
 

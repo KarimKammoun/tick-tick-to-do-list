@@ -1,16 +1,14 @@
 # Analysis configuration.
 #
-# `flutter analyze` must finish without errors *and* without warnings (rule 4 of
-# CLAUDE.md). Only the default flutter_lints set is enabled, plus `avoid_print`:
-# keeping the rule set small guarantees that the analysis stays clean and that
-# the CI signal is meaningful.
+# `flutter analyze` must finish without errors, warnings *or infos* (rule 3 of
+# CLAUDE.md): `flutter analyze` fails on infos by default since 3.26, and
+# `flutter_lints` already enables `avoid_print`, so only the default set of the
+# package is kept. Keeping the rule set small guarantees that the analysis stays
+# clean and that the CI signal stays meaningful.
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  # Generated sources are checked by their generator, not by hand.
   exclude:
     - "**/*.g.dart"
     - "lib/l10n/generated/**"
-
-linter:
-  rules:
-    avoid_print: true

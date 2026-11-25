@@ -183,14 +183,26 @@ class AppColors {
       danger: Contrast.readable(danger, background),
       success: Contrast.readable(success, background),
       premium: Contrast.readable(premium, background),
-      priorityHigh: Contrast.readable(priorityHigh, surface,
-          minRatio: Contrast.minGraphicRatio),
-      priorityMedium: Contrast.readable(priorityMedium, surface,
-          minRatio: Contrast.minGraphicRatio),
-      priorityLow: Contrast.readable(priorityLow, surface,
-          minRatio: Contrast.minGraphicRatio),
-      priorityNone: Contrast.readable(priorityNone, surface,
-          minRatio: Contrast.minGraphicRatio),
+      priorityHigh: Contrast.readable(
+        priorityHigh,
+        surface,
+        minRatio: Contrast.minGraphicRatio,
+      ),
+      priorityMedium: Contrast.readable(
+        priorityMedium,
+        surface,
+        minRatio: Contrast.minGraphicRatio,
+      ),
+      priorityLow: Contrast.readable(
+        priorityLow,
+        surface,
+        minRatio: Contrast.minGraphicRatio,
+      ),
+      priorityNone: Contrast.readable(
+        priorityNone,
+        surface,
+        minRatio: Contrast.minGraphicRatio,
+      ),
       accentedColor: resolvedAccent,
     );
   }

@@ -151,6 +151,18 @@ void main() {
       expect(theme.colorScheme.primary, isNot(AppColors.defaultAccent));
     });
 
+    test('component themes use the token types of Flutter 3.35', () {
+      // `ThemeData.appBarTheme` is typed `Object?` and silently accepts the
+      // inherited `AppBarTheme` widget; passing the data class keeps the value
+      // analysable and lets the test read it back without a cast.
+      final ThemeData theme = AppTheme.light(AppColors.defaultAccent);
+      expect(theme.appBarTheme, isA<AppBarThemeData>());
+      expect(
+        theme.appBarTheme.backgroundColor,
+        theme.extension<AppColorsTheme>()!.colors.background,
+      );
+    });
+
     test('bottom bar hides its labels, as required on mobile', () {
       final ThemeData theme = AppTheme.light(AppColors.defaultAccent);
       expect(

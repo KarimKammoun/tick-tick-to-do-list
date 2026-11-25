@@ -52,6 +52,39 @@ void main() {
       }
       expect(identical, isEmpty);
     });
+
+    test('every key is read somewhere in lib/ or test/', () {
+      // An unused key is dead weight: it has to be translated three times and
+      // it silently drifts. Every generated string is read as a getter
+      // (`context.l10n.<key>` or `AppLocalizations.of(context).<key>`), so a
+      // key missing from the set of every member read after a dot is unused.
+      final Set<String> read = <String>{};
+      final RegExp memberAccess = RegExp(r'\.([a-z][A-Za-z0-9]*)');
+      for (final Directory directory in <Directory>[
+        Directory('lib'),
+        Directory('test'),
+      ]) {
+        for (final FileSystemEntity entity
+            in directory.listSync(recursive: true)) {
+          if (entity is! File || !entity.path.endsWith('.dart')) {
+            continue;
+          }
+          if (entity.path.startsWith('lib/l10n/generated')) {
+            continue;
+          }
+          for (final RegExpMatch match
+              in memberAccess.allMatches(entity.readAsStringSync())) {
+            read.add(match.group(1)!);
+          }
+        }
+      }
+
+      final List<String> unused = _keysOf('lib/l10n/app_en.arb')
+          .where((String key) => !read.contains(key))
+          .toList()
+        ..sort();
+      expect(unused, isEmpty);
+    });
   });
 
   group('AppLocalizations', () {
