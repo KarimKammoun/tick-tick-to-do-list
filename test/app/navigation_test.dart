@@ -56,8 +56,9 @@ void main() {
     late GoRouter router;
     final ProviderContainer container = ProviderContainer(
       overrides: <Override>[
-        settingsRepositoryProvider
-            .overrideWithValue(_MemorySettingsRepository()),
+        settingsRepositoryProvider.overrideWithValue(
+          _MemorySettingsRepository(),
+        ),
         appDatabaseProvider.overrideWithValue(database),
         // Fixed list stream: the sidebar must not stay in its loading state,
         // which would keep `pumpAndSettle` waiting forever.

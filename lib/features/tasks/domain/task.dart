@@ -129,8 +129,9 @@ class Task {
       dueAt: clearDueAt ? null : (dueAt ?? this.dueAt),
       isAllDay: isAllDay ?? this.isAllDay,
       timeZone: timeZone,
-      recurrenceRule:
-          clearRecurrence ? null : (recurrenceRule ?? this.recurrenceRule),
+      recurrenceRule: clearRecurrence
+          ? null
+          : (recurrenceRule ?? this.recurrenceRule),
       reminders: reminders ?? this.reminders,
       sortOrder: sortOrder ?? this.sortOrder,
       estimatedMinutes: estimatedMinutes,

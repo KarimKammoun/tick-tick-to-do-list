@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/localization/localization_providers.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../shared/presentation/widgets/add_task_button.dart';
+import '../../../shared/presentation/widgets/app_bottom_sheet.dart';
 import '../../../shared/presentation/widgets/page_scaffold.dart';
 import '../../lists/data/list_providers.dart';
 import '../../lists/domain/task_list.dart';
@@ -53,8 +54,8 @@ class TaskListPage extends ConsumerWidget {
     if (wanted == null) {
       return null;
     }
-    final List<TaskList> lists = ref.watch(listsProvider).value ??
-        const <TaskList>[];
+    final List<TaskList> lists =
+        ref.watch(listsProvider).value ?? const <TaskList>[];
     for (final TaskList list in lists) {
       if (list.id == wanted) {
         return list.name;
@@ -65,31 +66,30 @@ class TaskListPage extends ConsumerWidget {
 
   /// Placeholder of the quick-add sheet. Step 0 only needs the rounded sheet
   /// component to exist; the real form is built in step 2.
+  ///
+  /// Goes through [AppBottomSheet] rather than calling `showModalBottomSheet`
+  /// directly: the rounded shape and the scrim colour live there, because
+  /// `BottomSheetThemeData` has no barrier colour to read back.
   void _showQuickAddSheet(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Theme.of(context).bottomSheetTheme.backgroundColor,
-      shape: Theme.of(context).bottomSheetTheme.shape,
-      barrierColor: Theme.of(context).bottomSheetTheme.barrierColor,
+    AppBottomSheet.show<void>(
+      context,
       builder: (BuildContext sheetContext) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  sheetContext.l10n.commonAddTask,
-                  style: Theme.of(sheetContext).textTheme.titleMedium,
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  sheetContext.l10n.placeholderBody,
-                  style: Theme.of(sheetContext).textTheme.bodySmall,
-                ),
-              ],
-            ),
+        return Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                sheetContext.l10n.commonAddTask,
+                style: Theme.of(sheetContext).textTheme.titleMedium,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                sheetContext.l10n.placeholderBody,
+                style: Theme.of(sheetContext).textTheme.bodySmall,
+              ),
+            ],
           ),
         );
       },

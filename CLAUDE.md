@@ -56,8 +56,8 @@ Ce dépôt construit **TaskFlow** (Flutter, Android + Windows) étape par étape
 
 - Drift, table déclarée dans `lib/core/database/database_tables.dart` ; toute table synchronisable utilise le mixin `SyncColumns` (`id` UUID, `updated_at`, `deleted_at`).
 - Suppression **logique** (`deleted_at`) partout ; les flux (`watch...`) filtrent `deletedAt IS NULL`.
-- Après toute modification de table : `dart run build_runner build --delete-conflicting-outputs` (le fichier `app_database.g.dart` est versionné).
-- `tool/generate_drift_code.py` reproduit la sortie de `drift_dev` pour ce schéma précis : à n'utiliser que si aucun SDK Dart n'est disponible, et à supprimer dès que `build_runner` peut tourner.
+- Après toute modification de table : `dart run build_runner build --delete-conflicting-outputs`. `app_database.g.dart` n'est **pas** versionné (voir `.gitignore`) : la CI le génère avant d'analyser, de tester et de compiler.
+- Ne jamais écrire `app_database.g.dart` à la main : une version rédigée sans `drift_dev` a divergé (`ListsCompanion.insert` attendait un `String` au lieu d'un `Value<String>`) et cassé les builds. Le générateur fait foi.
 - Chaque dépôt expose une interface (`TaskRepository`) et une implémentation Drift testée avec une base en mémoire.
 
 ## Internationalisation
@@ -68,4 +68,4 @@ Ce dépôt construit **TaskFlow** (Flutter, Android + Windows) étape par étape
 
 ## CI
 
-Le workflow prêt à l'emploi est `docs/ci/ci.yml` (à copier en `.github/workflows/ci.yml` par un compte ayant la permission *workflow*) : `flutter pub get`, `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`.
+`.github/workflows/ci.yml` (source : `docs/ci/ci.yml`, à recopier par un compte ayant la permission *workflow*) exécute `flutter pub get`, `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`. **Le formatage est vérifié** : lancer `dart format lib test` avant de pousser. `.github/workflows/main.yml` fabrique l'APK et l'exe Windows ; il régénère aussi le code (`gen-l10n`, `build_runner`), puisqu'`app_database.g.dart` n'est pas versionné.

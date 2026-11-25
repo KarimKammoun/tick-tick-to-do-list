@@ -37,8 +37,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     SharedPreferences.setMockInitialValues(<String, Object>{});
-    final SharedPreferences preferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     await tester.pumpWidget(
       ProviderScope(
@@ -70,9 +69,9 @@ void main() {
       expect(find.byType(NavigationDestination), findsNWidgets(5));
       // Annexe A: the bottom bar carries icons only, never text.
       expect(
-        Theme.of(tester.element(find.byType(NavigationBar)))
-            .navigationBarTheme
-            .labelBehavior,
+        Theme.of(
+          tester.element(find.byType(NavigationBar)),
+        ).navigationBarTheme.labelBehavior,
         NavigationDestinationLabelBehavior.alwaysHide,
       );
     });
@@ -138,8 +137,9 @@ void main() {
           .setThemeMode(AppThemeMode.dark);
       await tester.pumpAndSettle();
 
-      final ThemeData theme =
-          Theme.of(tester.element(find.byType(NavigationBar)));
+      final ThemeData theme = Theme.of(
+        tester.element(find.byType(NavigationBar)),
+      );
       expect(theme.brightness, Brightness.dark);
       expect(
         theme.extension<AppColorsTheme>()!.colors.background,
@@ -161,8 +161,9 @@ void main() {
           .setAccentColor(const Color(0xFF3FA796));
       await tester.pumpAndSettle();
 
-      final ThemeData theme =
-          Theme.of(tester.element(find.byType(NavigationBar)));
+      final ThemeData theme = Theme.of(
+        tester.element(find.byType(NavigationBar)),
+      );
       expect(theme.colorScheme.primary, isNot(AppColors.defaultAccent));
       expect(
         theme.extension<AppColorsTheme>()!.colors.accentedColor,
@@ -184,8 +185,9 @@ void main() {
           .setDensity(AppDensity.compact);
       await tester.pumpAndSettle();
 
-      final ThemeData theme =
-          Theme.of(tester.element(find.byType(NavigationBar)));
+      final ThemeData theme = Theme.of(
+        tester.element(find.byType(NavigationBar)),
+      );
       expect(theme.visualDensity, VisualDensity.compact);
     });
 

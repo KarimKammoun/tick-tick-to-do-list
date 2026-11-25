@@ -24,9 +24,7 @@ class AppCard extends StatelessWidget {
       color: context.colors.surface,
       shape: const RoundedRectangleBorder(borderRadius: AppRadius.card),
       clipBehavior: Clip.antiAlias,
-      child: onTap == null
-          ? content
-          : InkWell(onTap: onTap, child: content),
+      child: onTap == null ? content : InkWell(onTap: onTap, child: content),
     );
   }
 }

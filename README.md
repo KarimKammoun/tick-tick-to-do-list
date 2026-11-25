@@ -90,22 +90,21 @@ Chaque fonctionnalité suit `data` (Drift + providers), `domain` (modèles) et `
 
 ## GitHub Actions : APK Android et exécutable Windows
 
-Deux workflows prêts à l'emploi sont fournis dans `docs/ci/` :
+Deux workflows tournent à chaque push :
 
-| Fichier | Rôle | À copier en |
-|---|---|---|
-| `docs/ci/ci.yml` | formatage, `flutter analyze`, `flutter test` | `.github/workflows/ci.yml` |
-| `docs/ci/build.yml` | **APK Android** + **bundle Windows x64** en artefacts téléchargeables | `.github/workflows/build.yml` |
+| Workflow | Rôle |
+|---|---|
+| `.github/workflows/ci.yml` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test` |
+| `.github/workflows/main.yml` | **APK Android** + **bundle Windows x64** en artefacts téléchargeables |
 
-Ils ne sont pas versionnés sous `.github/workflows/` parce que le jeton de
-l'environnement de génération n'a pas la permission « workflows » (le push est
-refusé par GitHub). Pour les activer, depuis **votre** machine :
+Leurs sources sont conservées dans `docs/ci/` (`ci.yml`, `build.yml`), parce que
+le jeton de l'environnement de génération n'a pas la permission « workflows » :
+la copie sous `.github/workflows/` a été faite depuis un compte autorisé. Pour
+les remettre à jour :
 
 ```bash
-mkdir -p .github/workflows
 cp docs/ci/ci.yml .github/workflows/ci.yml
-cp docs/ci/build.yml .github/workflows/build.yml
-git add .github && git commit -m "ci: enable the CI and build workflows" && git push
+cp docs/ci/build.yml .github/workflows/main.yml
 ```
 
 Ensuite, onglet **Actions** du dépôt :
@@ -132,9 +131,12 @@ Windows, dans les deux thèmes.
 - Les écrans Calendrier, Matrice, Concentration et Détail de tâche sont des pages vides : ils sont livrés aux étapes 1 à 6.
 - Aucune création de tâche, rappel, récurrence ni synchronisation : étapes 1 à 4.
 - `supabase_flutter` est installé mais pas encore initialisé.
-- `lib/core/database/app_database.g.dart` (sortie de `drift_dev`) et
-  `lib/l10n/generated/app_localizations*.dart` (sortie de `gen-l10n`) sont
-  versionnés : l'environnement de génération n'a pas de SDK Dart. Les deux
-  s'obtiennent avec `dart run build_runner build --delete-conflicting-outputs`
-  et `flutter gen-l10n`, et le fichier Drift se régénère aussi avec
-  `python3 tool/generate_drift_code.py` (secours, mêmes conventions).
+- **Code généré** : `lib/l10n/generated/app_localizations*.dart` (sortie de
+  `gen-l10n`) est versionné, `lib/core/database/app_database.g.dart` (sortie de
+  `drift_dev`) ne l'est **plus**. Le fichier Drift avait été écrit à la main
+  faute de SDK dans l'environnement de génération, et il ne correspondait pas à
+  ce que produit `drift_dev` — la CI l'a prouvé. Il se recrée avec
+  `dart run build_runner build --delete-conflicting-outputs` ; **les workflows
+  le font avant de compiler, d'analyser et de tester**, c'est donc lui qui fait
+  autorité. En local, lancez-le après `flutter pub get` et après toute
+  modification de `database_tables.dart`.

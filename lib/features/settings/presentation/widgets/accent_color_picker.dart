@@ -42,7 +42,8 @@ class AccentColorPicker extends StatelessWidget {
           _AccentSwatch(
             color: AppColors.accentPalette[index],
             label: _nameOf(context, index),
-            isSelected: AppColors.accentPalette[index].toARGB32() ==
+            isSelected:
+                AppColors.accentPalette[index].toARGB32() ==
                 selected.toARGB32(),
             onTap: () => onChanged(AppColors.accentPalette[index]),
           ),

@@ -31,8 +31,8 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.colors;
-    final TextStyle? titleStyle =
-        Theme.of(context).textTheme.bodyLarge?.copyWith(
+    final TextStyle? titleStyle = Theme.of(context).textTheme.bodyLarge
+        ?.copyWith(
           decoration: task.status == TaskStatus.done
               ? TextDecoration.lineThrough
               : null,
@@ -72,10 +72,10 @@ class TaskTile extends StatelessWidget {
                       const SizedBox(height: AppSpacing.xxs),
                       DefaultTextStyle.merge(
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: isOverdue
-                                  ? tokens.danger
-                                  : tokens.textSecondary,
-                            ),
+                          color: isOverdue
+                              ? tokens.danger
+                              : tokens.textSecondary,
+                        ),
                         child: subtitle!,
                       ),
                     ],

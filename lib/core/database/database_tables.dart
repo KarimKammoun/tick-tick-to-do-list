@@ -57,8 +57,7 @@ class Lists extends Table with SyncColumns {
   TextColumn get icon => text().withDefault(const Constant<String>('list'))();
 
   /// Stored as an enum name: `tasks` or `notes` (see [ListType]).
-  TextColumn get kind =>
-      text().withDefault(const Constant<String>('tasks'))();
+  TextColumn get kind => text().withDefault(const Constant<String>('tasks'))();
 
   /// Default view of the list: `list`, `kanban` or `timeline`.
   TextColumn get defaultView =>
@@ -96,10 +95,11 @@ class Tasks extends Table with SyncColumns {
       text().nullable().references(Lists, #id, onDelete: KeyAction.cascade)();
   TextColumn get parentId =>
       text().nullable().references(Tasks, #id, onDelete: KeyAction.cascade)();
-  TextColumn get sectionId =>
-      text()
-          .nullable()
-          .references(Sections, #id, onDelete: KeyAction.setNull)();
+  TextColumn get sectionId => text().nullable().references(
+    Sections,
+    #id,
+    onDelete: KeyAction.setNull,
+  )();
 
   TextColumn get title => text().withLength(min: 1, max: 500)();
   TextColumn get description =>

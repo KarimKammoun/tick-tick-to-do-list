@@ -21,7 +21,7 @@ abstract interface class TagRepository {
 /// Drift implementation of [TagRepository].
 class DriftTagRepository implements TagRepository {
   DriftTagRepository(this._db, {IdGenerator? idGenerator})
-      : _ids = idGenerator ?? UuidGenerator();
+    : _ids = idGenerator ?? UuidGenerator();
 
   final AppDatabase _db;
   final IdGenerator _ids;
@@ -34,19 +34,19 @@ class DriftTagRepository implements TagRepository {
         ($TagsTable row) => OrderingTerm.asc(row.name),
       ]);
     return query.watch().map(
-          (List<TagRow> rows) => rows
-              .map(
-                (TagRow row) => Tag(
-                  id: row.id,
-                  name: row.name,
-                  color: Color(row.color),
-                  parentTagId: row.parentTagId,
-                  updatedAt: row.updatedAt,
-                  deletedAt: row.deletedAt,
-                ),
-              )
-              .toList(growable: false),
-        );
+      (List<TagRow> rows) => rows
+          .map(
+            (TagRow row) => Tag(
+              id: row.id,
+              name: row.name,
+              color: Color(row.color),
+              parentTagId: row.parentTagId,
+              updatedAt: row.updatedAt,
+              deletedAt: row.deletedAt,
+            ),
+          )
+          .toList(growable: false),
+    );
   }
 
   @override
@@ -57,7 +57,9 @@ class DriftTagRepository implements TagRepository {
   }) async {
     final String id = _ids.next();
     final DateTime now = DateTime.now().toUtc();
-    await _db.into(_db.tags).insert(
+    await _db
+        .into(_db.tags)
+        .insert(
           TagsCompanion.insert(
             id: id,
             name: name,
@@ -78,9 +80,9 @@ class DriftTagRepository implements TagRepository {
   @override
   Future<void> delete(String id) async {
     final DateTime now = DateTime.now().toUtc();
-    await (_db.update(_db.tags)
-          ..where(($TagsTable row) => row.id.equals(id)))
-        .write(
+    await (_db.update(
+      _db.tags,
+    )..where(($TagsTable row) => row.id.equals(id))).write(
       TagsCompanion(
         deletedAt: Value<DateTime>(now),
         updatedAt: Value<DateTime>(now),

@@ -8,17 +8,16 @@ import 'package:taskflow/core/theme/contrast.dart';
 void main() {
   group('Contrast', () {
     test('computes the WCAG ratio of known pairs', () {
-      expect(
-        Contrast.ratio(Colors.black, Colors.white),
-        closeTo(21, 0.01),
-      );
+      expect(Contrast.ratio(Colors.black, Colors.white), closeTo(21, 0.01));
       expect(Contrast.ratio(Colors.white, Colors.white), closeTo(1, 0.01));
     });
 
     test('readable() lifts text to the 4.5:1 requirement', () {
       final AppColors light = AppColors.light();
-      final Color adjusted =
-          Contrast.readable(const Color(0xFF6B7280), light.background);
+      final Color adjusted = Contrast.readable(
+        const Color(0xFF6B7280),
+        light.background,
+      );
 
       expect(
         Contrast.ratio(adjusted, light.background),
@@ -29,8 +28,10 @@ void main() {
     test('backgroundFor() keeps the chosen text readable', () {
       // The turquoise rail of the light theme: white icons are not readable
       // on the raw tint, so the surface is darkened.
-      final Color surface =
-          Contrast.backgroundFor(Colors.white, const Color(0xFF369081));
+      final Color surface = Contrast.backgroundFor(
+        Colors.white,
+        const Color(0xFF369081),
+      );
 
       expect(
         Contrast.ratio(Colors.white, surface),
@@ -38,10 +39,7 @@ void main() {
       );
       expect(surface, isNot(const Color(0xFF369081)));
       // A background that is already fine is returned unchanged.
-      expect(
-        Contrast.backgroundFor(Colors.black, Colors.white),
-        Colors.white,
-      );
+      expect(Contrast.backgroundFor(Colors.black, Colors.white), Colors.white);
     });
   });
 

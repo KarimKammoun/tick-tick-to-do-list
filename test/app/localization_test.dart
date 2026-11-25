@@ -64,8 +64,9 @@ void main() {
         Directory('lib'),
         Directory('test'),
       ]) {
-        for (final FileSystemEntity entity
-            in directory.listSync(recursive: true)) {
+        for (final FileSystemEntity entity in directory.listSync(
+          recursive: true,
+        )) {
           if (entity is! File || !entity.path.endsWith('.dart')) {
             continue;
           }
@@ -76,17 +77,17 @@ void main() {
               entity.path.endsWith('.g.dart')) {
             continue;
           }
-          for (final RegExpMatch match
-              in memberAccess.allMatches(entity.readAsStringSync())) {
+          for (final RegExpMatch match in memberAccess.allMatches(
+            entity.readAsStringSync(),
+          )) {
             read.add(match.group(1)!);
           }
         }
       }
 
-      final List<String> unused = _keysOf('lib/l10n/app_en.arb')
-          .where((String key) => !read.contains(key))
-          .toList()
-        ..sort();
+      final List<String> unused = _keysOf(
+        'lib/l10n/app_en.arb',
+      ).where((String key) => !read.contains(key)).toList()..sort();
       expect(unused, isEmpty);
     });
   });
@@ -98,18 +99,20 @@ void main() {
         const Locale('en'),
         const Locale('ar'),
       ]) {
-        final AppLocalizations localizations =
-            await AppLocalizations.delegate.load(locale);
+        final AppLocalizations localizations = await AppLocalizations.delegate
+            .load(locale);
         expect(localizations.appTitle, 'TaskFlow');
         expect(localizations.shellTabTasks, isNotEmpty);
       }
     });
 
     test('Arabic is a supported locale with its own translations', () async {
-      final AppLocalizations arabic =
-          await AppLocalizations.delegate.load(const Locale('ar'));
-      final AppLocalizations english =
-          await AppLocalizations.delegate.load(const Locale('en'));
+      final AppLocalizations arabic = await AppLocalizations.delegate.load(
+        const Locale('ar'),
+      );
+      final AppLocalizations english = await AppLocalizations.delegate.load(
+        const Locale('en'),
+      );
 
       expect(arabic.localeName, 'ar');
       expect(arabic.shellTabTasks, isNot(english.shellTabTasks));

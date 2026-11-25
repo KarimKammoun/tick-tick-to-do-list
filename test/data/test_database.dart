@@ -11,8 +11,9 @@ AppDatabase openTestDatabase() {
 
 /// Column names of an sqlite table, for the schema assertions.
 Future<List<String>> columnsOf(AppDatabase database, String table) async {
-  final List<QueryRow> rows =
-      await database.customSelect('PRAGMA table_info($table)').get();
+  final List<QueryRow> rows = await database
+      .customSelect('PRAGMA table_info($table)')
+      .get();
   return rows
       .map((QueryRow row) => row.read<String>('name'))
       .toList(growable: false);

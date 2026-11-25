@@ -6,9 +6,9 @@ enum ListType {
   notes;
 
   static ListType fromName(String name) => ListType.values.firstWhere(
-        (ListType type) => type.name == name,
-        orElse: () => ListType.tasks,
-      );
+    (ListType type) => type.name == name,
+    orElse: () => ListType.tasks,
+  );
 }
 
 /// Default view of a list (spec 5.8).

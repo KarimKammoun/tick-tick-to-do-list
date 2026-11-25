@@ -16,8 +16,9 @@ void main() {
     test('defaults to the system theme and the blue accent', () async {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      final SettingsRepository repository =
-          SharedPreferencesSettingsRepository(preferences);
+      final SettingsRepository repository = SharedPreferencesSettingsRepository(
+        preferences,
+      );
 
       final AppSettings settings = repository.read();
 
@@ -31,8 +32,9 @@ void main() {
     test('persists the theme mode, the accent and the density', () async {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      final SettingsRepository repository =
-          SharedPreferencesSettingsRepository(preferences);
+      final SettingsRepository repository = SharedPreferencesSettingsRepository(
+        preferences,
+      );
 
       await repository.write(
         const AppSettings(
@@ -44,8 +46,9 @@ void main() {
         ),
       );
 
-      final AppSettings reloaded =
-          SharedPreferencesSettingsRepository(preferences).read();
+      final AppSettings reloaded = SharedPreferencesSettingsRepository(
+        preferences,
+      ).read();
       expect(reloaded.themeMode, AppThemeMode.dark);
       expect(reloaded.accentColor, const Color(0xFF3FA796));
       expect(reloaded.density, AppDensity.compact);
@@ -56,17 +59,17 @@ void main() {
     test('going back to the system language clears the stored code', () async {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      final SettingsRepository repository =
-          SharedPreferencesSettingsRepository(preferences);
+      final SettingsRepository repository = SharedPreferencesSettingsRepository(
+        preferences,
+      );
 
       await repository.write(const AppSettings(languageCode: 'fr'));
       expect(repository.read().languageCode, 'fr');
 
-      await repository.write(
-        repository.read().copyWith(clearLanguage: true),
-      );
-      final AppSettings reloaded =
-          SharedPreferencesSettingsRepository(preferences).read();
+      await repository.write(repository.read().copyWith(clearLanguage: true));
+      final AppSettings reloaded = SharedPreferencesSettingsRepository(
+        preferences,
+      ).read();
       expect(reloaded.languageCode, isNull);
       expect(preferences.getString('settings.languageCode'), isNull);
     });
@@ -92,8 +95,9 @@ void main() {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
 
-      final AppSettings settings =
-          SharedPreferencesSettingsRepository(preferences).read();
+      final AppSettings settings = SharedPreferencesSettingsRepository(
+        preferences,
+      ).read();
 
       expect(settings.themeMode, AppThemeMode.system);
       expect(settings.density, AppDensity.comfortable);
@@ -104,8 +108,9 @@ void main() {
   group('AppSettings', () {
     test('copyWith keeps the other fields', () {
       const AppSettings settings = AppSettings();
-      final AppSettings updated =
-          settings.copyWith(themeMode: AppThemeMode.light);
+      final AppSettings updated = settings.copyWith(
+        themeMode: AppThemeMode.light,
+      );
 
       expect(updated.themeMode, AppThemeMode.light);
       expect(updated.accentColor, settings.accentColor);
@@ -114,8 +119,9 @@ void main() {
 
     test('copyWith keeps a language when the caller does not touch it', () {
       const AppSettings settings = AppSettings(languageCode: 'ar');
-      final AppSettings updated =
-          settings.copyWith(density: AppDensity.compact);
+      final AppSettings updated = settings.copyWith(
+        density: AppDensity.compact,
+      );
 
       expect(updated.languageCode, 'ar');
       expect(updated, isNot(settings));

@@ -22,8 +22,9 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppSettings settings = ref.watch(appSettingsProvider);
-    final AppSettingsController controller =
-        ref.read(appSettingsProvider.notifier);
+    final AppSettingsController controller = ref.read(
+      appSettingsProvider.notifier,
+    );
     final AppLocalizations l10n = context.l10n;
 
     return PageScaffold(
@@ -119,10 +120,9 @@ class _SectionTitle extends StatelessWidget {
       ),
       child: Text(
         text.toUpperCase(),
-        style: Theme.of(context)
-            .textTheme
-            .labelSmall
-            ?.copyWith(color: context.colors.textSecondary),
+        style: Theme.of(
+          context,
+        ).textTheme.labelSmall?.copyWith(color: context.colors.textSecondary),
       ),
     );
   }

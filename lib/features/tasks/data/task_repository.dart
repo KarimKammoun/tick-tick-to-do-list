@@ -65,7 +65,7 @@ abstract interface class TaskRepository {
 /// Drift implementation of [TaskRepository].
 class DriftTaskRepository implements TaskRepository {
   DriftTaskRepository(this._db, {IdGenerator? idGenerator})
-      : _ids = idGenerator ?? UuidGenerator();
+    : _ids = idGenerator ?? UuidGenerator();
 
   final AppDatabase _db;
   final IdGenerator _ids;
@@ -86,9 +86,8 @@ class DriftTaskRepository implements TaskRepository {
         ($TasksTable row) => OrderingTerm.desc(row.updatedAt),
       ]);
     return query.watch().map(
-          (List<TaskRow> rows) =>
-              rows.map(Task.fromRow).toList(growable: false),
-        );
+      (List<TaskRow> rows) => rows.map(Task.fromRow).toList(growable: false),
+    );
   }
 
   @override
@@ -102,16 +101,15 @@ class DriftTaskRepository implements TaskRepository {
         ($TasksTable row) => OrderingTerm.asc(row.sortOrder),
       ]);
     return query.watch().map(
-          (List<TaskRow> rows) =>
-              rows.map(Task.fromRow).toList(growable: false),
-        );
+      (List<TaskRow> rows) => rows.map(Task.fromRow).toList(growable: false),
+    );
   }
 
   @override
   Future<Task?> findById(String id) async {
-    final TaskRow? row = await (_db.select(_db.tasks)
-          ..where(($TasksTable row) => row.id.equals(id)))
-        .getSingleOrNull();
+    final TaskRow? row = await (_db.select(
+      _db.tasks,
+    )..where(($TasksTable row) => row.id.equals(id))).getSingleOrNull();
     return row == null ? null : Task.fromRow(row);
   }
 
@@ -133,15 +131,17 @@ class DriftTaskRepository implements TaskRepository {
     final String id = _ids.next();
     final DateTime now = DateTime.now().toUtc();
     final int nextOrder = await _nextSortOrder(listId);
-    await _db.into(_db.tasks).insert(
+    await _db
+        .into(_db.tasks)
+        .insert(
           TasksCompanion.insert(
             id: id,
             title: title,
             listId: Value<String?>(listId),
             parentId: Value<String?>(parentId),
             sectionId: sectionId == null
-            ? const Value<String?>.absent()
-            : Value<String?>(sectionId),
+                ? const Value<String?>.absent()
+                : Value<String?>(sectionId),
             description: Value<String>(description ?? ''),
             priority: Value<int>(priority.value),
             dueAt: Value<DateTime?>(dueAt?.toUtc()),
@@ -192,11 +192,13 @@ class DriftTaskRepository implements TaskRepository {
     bool clearRecurrence = false,
     int? sortOrder,
   }) async {
-    await (_db.update(_db.tasks)..where(($TasksTable row) => row.id.equals(id)))
-        .write(
+    await (_db.update(
+      _db.tasks,
+    )..where(($TasksTable row) => row.id.equals(id))).write(
       TasksCompanion(
-        title:
-            title == null ? const Value<String>.absent() : Value<String>(title),
+        title: title == null
+            ? const Value<String>.absent()
+            : Value<String>(title),
         description: description == null
             ? const Value<String>.absent()
             : Value<String>(description),
@@ -206,32 +208,30 @@ class DriftTaskRepository implements TaskRepository {
         dueAt: clearDueAt
             ? const Value<DateTime?>(null)
             : (dueAt == null
-                ? const Value<DateTime?>.absent()
-                : Value<DateTime?>(dueAt.toUtc())),
-        isAllDay:
-            isAllDay == null
-                ? const Value<bool>.absent()
-                : Value<bool>(isAllDay),
+                  ? const Value<DateTime?>.absent()
+                  : Value<DateTime?>(dueAt.toUtc())),
+        isAllDay: isAllDay == null
+            ? const Value<bool>.absent()
+            : Value<bool>(isAllDay),
         listId: clearList
             ? const Value<String?>(null)
             : (listId == null
-                ? const Value<String?>.absent()
-                : Value<String?>(listId)),
+                  ? const Value<String?>.absent()
+                  : Value<String?>(listId)),
         sectionId: sectionId == null
             ? const Value<String?>.absent()
             : Value<String?>(sectionId),
-        isPinned:
-            isPinned == null
-                ? const Value<bool>.absent()
-                : Value<bool>(isPinned),
+        isPinned: isPinned == null
+            ? const Value<bool>.absent()
+            : Value<bool>(isPinned),
         reminders: reminders == null
             ? const Value<String>.absent()
             : Value<String>(TaskReminders.encode(reminders)),
         recurrenceRule: clearRecurrence
             ? const Value<String?>(null)
             : (recurrenceRule == null
-                ? const Value<String?>.absent()
-                : Value<String?>(recurrenceRule)),
+                  ? const Value<String?>.absent()
+                  : Value<String?>(recurrenceRule)),
         sortOrder: sortOrder == null
             ? const Value<int>.absent()
             : Value<int>(sortOrder),
@@ -243,8 +243,9 @@ class DriftTaskRepository implements TaskRepository {
   @override
   Future<void> setStatus(String id, TaskStatus status) async {
     final DateTime now = DateTime.now().toUtc();
-    await (_db.update(_db.tasks)..where(($TasksTable row) => row.id.equals(id)))
-        .write(
+    await (_db.update(
+      _db.tasks,
+    )..where(($TasksTable row) => row.id.equals(id))).write(
       TasksCompanion(
         status: Value<String>(status.name),
         completedAt: status == TaskStatus.done
@@ -262,36 +263,37 @@ class DriftTaskRepository implements TaskRepository {
       deletedAt: Value<DateTime>(now),
       updatedAt: Value<DateTime>(now),
     );
-    await (_db.update(_db.tasks)
-          ..where(($TasksTable row) => row.parentId.equals(id)))
-        .write(tombstone);
-    await (_db.update(_db.tasks)
-          ..where(($TasksTable row) => row.id.equals(id)))
-        .write(tombstone);
+    await (_db.update(
+      _db.tasks,
+    )..where(($TasksTable row) => row.parentId.equals(id))).write(tombstone);
+    await (_db.update(
+      _db.tasks,
+    )..where(($TasksTable row) => row.id.equals(id))).write(tombstone);
   }
 
   @override
   Future<void> attachTag(String taskId, String tagId) async {
-    await _db.into(_db.taskTags).insertOnConflictUpdate(
+    await _db
+        .into(_db.taskTags)
+        .insertOnConflictUpdate(
           TaskTagsCompanion.insert(taskId: taskId, tagId: tagId),
         );
   }
 
   @override
   Future<void> detachTag(String taskId, String tagId) async {
-    await (_db.delete(_db.taskTags)
-          ..where(
-            ($TaskTagsTable row) =>
-                row.taskId.equals(taskId) & row.tagId.equals(tagId),
-          ))
+    await (_db.delete(_db.taskTags)..where(
+          ($TaskTagsTable row) =>
+              row.taskId.equals(taskId) & row.tagId.equals(tagId),
+        ))
         .go();
   }
 
   @override
   Future<List<String>> tagIdsOf(String taskId) async {
-    final List<TaskTag> links = await (_db.select(_db.taskTags)
-          ..where(($TaskTagsTable row) => row.taskId.equals(taskId)))
-        .get();
+    final List<TaskTag> links = await (_db.select(
+      _db.taskTags,
+    )..where(($TaskTagsTable row) => row.taskId.equals(taskId))).get();
     return links.map((TaskTag link) => link.tagId).toList(growable: false);
   }
 

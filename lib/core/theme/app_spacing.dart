@@ -28,8 +28,9 @@ abstract final class AppRadius {
   static const double xl = 24;
 
   static const BorderRadius card = BorderRadius.all(Radius.circular(md));
-  static const BorderRadius sheet =
-      BorderRadius.vertical(top: Radius.circular(xl));
+  static const BorderRadius sheet = BorderRadius.vertical(
+    top: Radius.circular(xl),
+  );
   static const BorderRadius checkbox = BorderRadius.all(Radius.circular(xs));
 }
 

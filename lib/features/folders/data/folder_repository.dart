@@ -22,7 +22,7 @@ abstract interface class FolderRepository {
 /// Drift implementation of [FolderRepository].
 class DriftFolderRepository implements FolderRepository {
   DriftFolderRepository(this._db, {IdGenerator? idGenerator})
-      : _ids = idGenerator ?? UuidGenerator();
+    : _ids = idGenerator ?? UuidGenerator();
 
   final AppDatabase _db;
   final IdGenerator _ids;
@@ -36,19 +36,19 @@ class DriftFolderRepository implements FolderRepository {
         ($FoldersTable row) => OrderingTerm.asc(row.name),
       ]);
     return query.watch().map(
-          (List<FolderRow> rows) => rows
-              .map(
-                (FolderRow row) => Folder(
-                  id: row.id,
-                  name: row.name,
-                  isCollapsed: row.isCollapsed,
-                  sortOrder: row.sortOrder,
-                  updatedAt: row.updatedAt,
-                  deletedAt: row.deletedAt,
-                ),
-              )
-              .toList(growable: false),
-        );
+      (List<FolderRow> rows) => rows
+          .map(
+            (FolderRow row) => Folder(
+              id: row.id,
+              name: row.name,
+              isCollapsed: row.isCollapsed,
+              sortOrder: row.sortOrder,
+              updatedAt: row.updatedAt,
+              deletedAt: row.deletedAt,
+            ),
+          )
+          .toList(growable: false),
+    );
   }
 
   @override
@@ -56,7 +56,9 @@ class DriftFolderRepository implements FolderRepository {
     final String id = _ids.next();
     final DateTime now = DateTime.now().toUtc();
     final int nextOrder = await _nextSortOrder();
-    await _db.into(_db.folders).insert(
+    await _db
+        .into(_db.folders)
+        .insert(
           FoldersCompanion.insert(
             id: id,
             name: name,
@@ -69,27 +71,23 @@ class DriftFolderRepository implements FolderRepository {
   }
 
   @override
-  Future<void> rename(String id, String name) => _touch(
-        id,
-        FoldersCompanion(name: Value<String>(name)),
-      );
+  Future<void> rename(String id, String name) =>
+      _touch(id, FoldersCompanion(name: Value<String>(name)));
 
   @override
-  Future<void> setCollapsed(String id, {required bool isCollapsed}) => _touch(
-        id,
-        FoldersCompanion(isCollapsed: Value<bool>(isCollapsed)),
-      );
+  Future<void> setCollapsed(String id, {required bool isCollapsed}) =>
+      _touch(id, FoldersCompanion(isCollapsed: Value<bool>(isCollapsed)));
 
   @override
   Future<void> delete(String id) => _touch(
-        id,
-        FoldersCompanion(deletedAt: Value<DateTime>(DateTime.now().toUtc())),
-      );
+    id,
+    FoldersCompanion(deletedAt: Value<DateTime>(DateTime.now().toUtc())),
+  );
 
   Future<void> _touch(String id, FoldersCompanion changes) async {
-    await (_db.update(_db.folders)
-          ..where(($FoldersTable row) => row.id.equals(id)))
-        .write(
+    await (_db.update(
+      _db.folders,
+    )..where(($FoldersTable row) => row.id.equals(id))).write(
       changes.copyWith(updatedAt: Value<DateTime>(DateTime.now().toUtc())),
     );
   }

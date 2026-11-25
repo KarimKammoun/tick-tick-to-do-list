@@ -84,10 +84,7 @@ void main() {
         title: 'Call the bank',
         priority: TaskPriority.high,
         dueAt: due,
-        reminders: const <Duration>[
-          Duration.zero,
-          Duration(minutes: 30),
-        ],
+        reminders: const <Duration>[Duration.zero, Duration(minutes: 30)],
         recurrenceRule: 'FREQ=WEEKLY;BYDAY=MO',
       );
 
@@ -118,8 +115,10 @@ void main() {
 
     test('soft deletes a task and its sub-tasks', () async {
       final Task parent = await tasks.create(title: 'Parent');
-      final Task child =
-          await tasks.create(title: 'Child', parentId: parent.id);
+      final Task child = await tasks.create(
+        title: 'Child',
+        parentId: parent.id,
+      );
 
       await tasks.delete(parent.id);
 
@@ -164,7 +163,9 @@ void main() {
 
     test('attaches and detaches tags', () async {
       final Task created = await tasks.create(title: 'Tagged');
-      await database.into(database.tags).insert(
+      await database
+          .into(database.tags)
+          .insert(
             TagsCompanion.insert(
               id: 'tag-1',
               name: 'urgent',

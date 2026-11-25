@@ -32,12 +32,16 @@ abstract final class AppRoutes {
   static String task(String taskId) => '/task/$taskId';
 
   /// Path of a smart view.
+  ///
+  /// [SmartView.all] is not a smart view of its own: it is the default view of
+  /// the first branch, so it maps to the Tasks location.
   static String smartView(SmartView view) => switch (view) {
-        SmartView.inbox => inbox,
-        SmartView.today => today,
-        SmartView.next7Days => next7Days,
-        SmartView.completed => completed,
-      };
+    SmartView.all => tasks,
+    SmartView.inbox => inbox,
+    SmartView.today => today,
+    SmartView.next7Days => next7Days,
+    SmartView.completed => completed,
+  };
 }
 
 /// Application router: five mobile branches (Tasks, Calendar, Matrix, Focus,
@@ -47,13 +51,14 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
     initialLocation: AppRoutes.tasks,
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
-        builder: (
-          BuildContext context,
-          GoRouterState state,
-          StatefulNavigationShell navigationShell,
-        ) {
-          return AppShell(navigationShell: navigationShell);
-        },
+        builder:
+            (
+              BuildContext context,
+              GoRouterState state,
+              StatefulNavigationShell navigationShell,
+            ) {
+              return AppShell(navigationShell: navigationShell);
+            },
         branches: <StatefulShellBranch>[
           StatefulShellBranch(
             routes: <RouteBase>[
@@ -100,9 +105,7 @@ final Provider<GoRouter> routerProvider = Provider<GoRouter>((Ref ref) {
               GoRoute(
                 path: AppRoutes.profile,
                 builder: (BuildContext context, GoRouterState state) =>
-                    const MorePage(
-                  titleKey: MorePageTitle.profile,
-                ),
+                    const MorePage(titleKey: MorePageTitle.profile),
               ),
             ],
           ),

@@ -48,15 +48,18 @@ abstract final class Contrast {
     double minRatio = minTextRatio,
   }) {
     final bool lighten = relativeLuminance(background) < 0.5;
-    final Color target =
-        lighten ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+    final Color target = lighten
+        ? const Color(0xFFFFFFFF)
+        : const Color(0xFF000000);
 
     if (ratio(foreground, background) >= minRatio) {
       return foreground;
     }
     for (int step = 1; step <= 100; step++) {
-      final Color candidate =
-          Color.alphaBlend(target.withValues(alpha: step / 100), foreground);
+      final Color candidate = Color.alphaBlend(
+        target.withValues(alpha: step / 100),
+        foreground,
+      );
       if (ratio(candidate, background) >= minRatio) {
         return candidate;
       }
@@ -84,8 +87,10 @@ abstract final class Contrast {
         ? const Color(0xFFFFFFFF)
         : const Color(0xFF000000);
     for (int step = 1; step <= 100; step++) {
-      final Color candidate =
-          Color.alphaBlend(target.withValues(alpha: step / 100), background);
+      final Color candidate = Color.alphaBlend(
+        target.withValues(alpha: step / 100),
+        background,
+      );
       if (ratio(text, candidate) >= minRatio) {
         return candidate;
       }
@@ -116,8 +121,9 @@ abstract final class Contrast {
   /// otherwise it is moved away from the background until both hold.
   static Color accessibleAccent(Color accent, Color background) {
     final bool isDarkBackground = relativeLuminance(background) < 0.5;
-    final Color edge =
-        isDarkBackground ? const Color(0xFFFFFFFF) : const Color(0xFF000000);
+    final Color edge = isDarkBackground
+        ? const Color(0xFFFFFFFF)
+        : const Color(0xFF000000);
 
     double score(Color color) {
       final Color onColor = textOn(color);
@@ -128,8 +134,10 @@ abstract final class Contrast {
       return accent;
     }
     for (int step = 1; step <= 100; step++) {
-      final Color candidate =
-          Color.alphaBlend(edge.withValues(alpha: step / 100), accent);
+      final Color candidate = Color.alphaBlend(
+        edge.withValues(alpha: step / 100),
+        accent,
+      );
       if (score(candidate) >= minTextRatio) {
         return candidate;
       }

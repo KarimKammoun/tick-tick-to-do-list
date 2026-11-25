@@ -9,10 +9,10 @@ enum AppThemeMode {
   dark;
 
   ThemeMode get materialMode => switch (this) {
-        AppThemeMode.system => ThemeMode.system,
-        AppThemeMode.light => ThemeMode.light,
-        AppThemeMode.dark => ThemeMode.dark,
-      };
+    AppThemeMode.system => ThemeMode.system,
+    AppThemeMode.light => ThemeMode.light,
+    AppThemeMode.dark => ThemeMode.dark,
+  };
 }
 
 /// Density choice of Settings > Appearance (Annexe D.3, point 3).
@@ -21,9 +21,9 @@ enum AppDensity {
   compact;
 
   VisualDensity get visualDensity => switch (this) {
-        AppDensity.comfortable => VisualDensity.standard,
-        AppDensity.compact => VisualDensity.compact,
-      };
+    AppDensity.comfortable => VisualDensity.standard,
+    AppDensity.compact => VisualDensity.compact,
+  };
 }
 
 /// Locally remembered appearance settings (Annexe D.1: "le changement de theme

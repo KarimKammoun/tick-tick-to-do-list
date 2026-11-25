@@ -37,10 +37,10 @@ void main() {
       await folders.create(name: 'Personal');
 
       final List<Folder> stored = await folders.watchAll().first;
-      expect(
-        stored.map((Folder folder) => folder.name),
-        <String>['Work', 'Personal'],
-      );
+      expect(stored.map((Folder folder) => folder.name), <String>[
+        'Work',
+        'Personal',
+      ]);
     });
 
     test('collapses, renames and soft deletes a folder', () async {
@@ -93,8 +93,10 @@ void main() {
         color: const Color(0xFF4772FA),
         icon: 'list',
       );
-      final Task task =
-          await tasks.create(title: 'Belongs to list', listId: list.id);
+      final Task task = await tasks.create(
+        title: 'Belongs to list',
+        listId: list.id,
+      );
 
       await lists.delete(list.id);
 
@@ -124,7 +126,9 @@ void main() {
 
   group('DriftTagRepository', () {
     test('creates hierarchical tags and soft deletes them', () async {
-      final TagRow parent = await database.into(database.tags).insertReturning(
+      final TagRow parent = await database
+          .into(database.tags)
+          .insertReturning(
             TagsCompanion.insert(
               id: 'parent',
               name: 'work',

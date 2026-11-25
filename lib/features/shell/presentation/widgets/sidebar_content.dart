@@ -37,9 +37,7 @@ class SidebarContent extends ConsumerWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       children: <Widget>[
-        _ProfileHeader(
-          onTap: () => _go(context, AppRoutes.profile),
-        ),
+        _ProfileHeader(onTap: () => _go(context, AppRoutes.profile)),
         const Divider(),
         _SidebarEntry(
           icon: Icons.inbox_outlined,
@@ -215,7 +213,8 @@ class _SidebarEntry extends StatelessWidget {
         leading: Icon(
           icon,
           size: AppSizes.iconSmall,
-          color: iconColor ??
+          color:
+              iconColor ??
               (isSelected
                   ? Theme.of(context).colorScheme.primary
                   : context.colors.textSecondary),
@@ -223,10 +222,10 @@ class _SidebarEntry extends StatelessWidget {
         title: Text(
           label,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : context.colors.textPrimary,
-              ),
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : context.colors.textPrimary,
+          ),
         ),
       ),
     );

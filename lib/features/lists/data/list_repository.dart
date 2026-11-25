@@ -36,7 +36,7 @@ abstract interface class ListRepository {
 /// Drift implementation of [ListRepository].
 class DriftListRepository implements ListRepository {
   DriftListRepository(this._db, {IdGenerator? idGenerator})
-      : _ids = idGenerator ?? UuidGenerator();
+    : _ids = idGenerator ?? UuidGenerator();
 
   final AppDatabase _db;
   final IdGenerator _ids;
@@ -46,25 +46,22 @@ class DriftListRepository implements ListRepository {
     final Selectable<TaskListRow> query = _db.select(_db.lists)
       ..where(($ListsTable row) {
         final Expression<bool> alive = row.deletedAt.isNull();
-        return includeArchived
-            ? alive
-            : alive & row.isArchived.equals(false);
+        return includeArchived ? alive : alive & row.isArchived.equals(false);
       })
       ..orderBy(<OrderClauseGenerator<$ListsTable>>[
         ($ListsTable row) => OrderingTerm.asc(row.sortOrder),
         ($ListsTable row) => OrderingTerm.asc(row.name),
       ]);
     return query.watch().map(
-          (List<TaskListRow> rows) =>
-              rows.map(_toDomain).toList(growable: false),
-        );
+      (List<TaskListRow> rows) => rows.map(_toDomain).toList(growable: false),
+    );
   }
 
   @override
   Future<TaskList?> findById(String id) async {
-    final TaskListRow? row = await (_db.select(_db.lists)
-          ..where(($ListsTable row) => row.id.equals(id)))
-        .getSingleOrNull();
+    final TaskListRow? row = await (_db.select(
+      _db.lists,
+    )..where(($ListsTable row) => row.id.equals(id))).getSingleOrNull();
     return row == null ? null : _toDomain(row);
   }
 
@@ -79,12 +76,14 @@ class DriftListRepository implements ListRepository {
     final String id = _ids.next();
     final DateTime now = DateTime.now().toUtc();
     final int nextOrder = await _nextSortOrder();
-    await _db.into(_db.lists).insert(
+    await _db
+        .into(_db.lists)
+        .insert(
           ListsCompanion.insert(
             id: id,
             name: name,
             color: color.toARGB32(),
-            icon: icon,
+            icon: Value<String>(icon),
             folderId: Value<String?>(folderId),
             kind: Value<String>(kind.name),
             sortOrder: Value<int>(nextOrder),
@@ -114,9 +113,9 @@ class DriftListRepository implements ListRepository {
     bool? isArchived,
     ListDefaultView? defaultView,
   }) async {
-    await (_db.update(_db.lists)
-          ..where(($ListsTable row) => row.id.equals(id)))
-        .write(
+    await (_db.update(
+      _db.lists,
+    )..where(($ListsTable row) => row.id.equals(id))).write(
       ListsCompanion(
         name: name == null ? const Value<String>.absent() : Value<String>(name),
         color: color == null
@@ -126,8 +125,8 @@ class DriftListRepository implements ListRepository {
         folderId: clearFolder
             ? const Value<String?>(null)
             : (folderId == null
-                ? const Value<String?>.absent()
-                : Value<String?>(folderId)),
+                  ? const Value<String?>.absent()
+                  : Value<String?>(folderId)),
         isArchived: isArchived == null
             ? const Value<bool>.absent()
             : Value<bool>(isArchived),
@@ -142,14 +141,14 @@ class DriftListRepository implements ListRepository {
   @override
   Future<void> delete(String id) async {
     final DateTime now = DateTime.now().toUtc();
-    await (_db.update(_db.lists)
-          ..where(($ListsTable row) => row.id.equals(id)))
-        .write(
-          ListsCompanion(
-            deletedAt: Value<DateTime>(now),
-            updatedAt: Value<DateTime>(now),
-          ),
-        );
+    await (_db.update(
+      _db.lists,
+    )..where(($ListsTable row) => row.id.equals(id))).write(
+      ListsCompanion(
+        deletedAt: Value<DateTime>(now),
+        updatedAt: Value<DateTime>(now),
+      ),
+    );
     // Removing a list moves its tasks to the Inbox instead of losing them.
     await (_db.update(_db.tasks)
           ..where(($TasksTable row) => row.listId.equals(id)))

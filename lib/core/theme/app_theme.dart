@@ -14,20 +14,19 @@ abstract final class AppTheme {
   static ThemeData light(
     Color accent, {
     VisualDensity density = VisualDensity.standard,
-  }) =>
-      _build(AppColors.light().harmonized(accent), density);
+  }) => _build(AppColors.light().harmonized(accent), density);
 
   /// Dark theme built from the Annexe D.2 dark tokens.
   static ThemeData dark(
     Color accent, {
     VisualDensity density = VisualDensity.standard,
-  }) =>
-      _build(AppColors.dark().harmonized(accent), density);
+  }) => _build(AppColors.dark().harmonized(accent), density);
 
   static ThemeData _build(AppColors colors, VisualDensity density) {
     final Color accent = colors.accentedColor;
-    final Brightness brightness =
-        colors.brightnessIsDark ? Brightness.dark : Brightness.light;
+    final Brightness brightness = colors.brightnessIsDark
+        ? Brightness.dark
+        : Brightness.light;
 
     final ColorScheme scheme = ColorScheme(
       brightness: brightness,
@@ -73,8 +72,10 @@ abstract final class AppTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: textTheme.titleLarge,
-        iconTheme:
-            IconThemeData(color: colors.textPrimary, size: AppSizes.icon),
+        iconTheme: IconThemeData(
+          color: colors.textPrimary,
+          size: AppSizes.icon,
+        ),
       ),
       cardTheme: CardThemeData(
         color: colors.surface,
@@ -88,8 +89,10 @@ abstract final class AppTheme {
         thickness: 1,
         space: 1,
       ),
-      iconTheme:
-          IconThemeData(color: colors.textSecondary, size: AppSizes.icon),
+      iconTheme: IconThemeData(
+        color: colors.textSecondary,
+        size: AppSizes.icon,
+      ),
       listTileTheme: ListTileThemeData(
         iconColor: colors.textSecondary,
         textColor: colors.textPrimary,
@@ -137,7 +140,8 @@ abstract final class AppTheme {
         modalBackgroundColor: colors.surface,
         shape: const RoundedRectangleBorder(borderRadius: AppRadius.sheet),
         dragHandleColor: colors.divider,
-        barrierColor: colors.overlay,
+        // No barrier colour here: BottomSheetThemeData has no such field. The
+        // scrim is passed per call by AppBottomSheet.show instead.
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: colors.surface,

@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'database_connection.dart';
 
 /// File based connection used by the Android and Windows applications.
-class NativeDatabaseConnection implements DatabaseConnection {
+class NativeDatabaseConnection implements AppDatabaseConnection {
   const NativeDatabaseConnection({this.fileName = 'taskflow.sqlite'});
 
   final String fileName;

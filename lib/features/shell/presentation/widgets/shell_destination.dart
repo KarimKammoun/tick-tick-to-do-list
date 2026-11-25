@@ -52,12 +52,12 @@ enum ShellDestination {
   /// Localised name, also used as tooltip and semantic label because the bar
   /// shows icons only.
   String localizedLabel(BuildContext context) => switch (label) {
-        _ShellLabel.tasks => context.l10n.shellTabTasks,
-        _ShellLabel.calendar => context.l10n.shellTabCalendar,
-        _ShellLabel.matrix => context.l10n.shellTabMatrix,
-        _ShellLabel.focus => context.l10n.shellTabFocus,
-        _ShellLabel.more => context.l10n.shellTabMore,
-      };
+    _ShellLabel.tasks => context.l10n.shellTabTasks,
+    _ShellLabel.calendar => context.l10n.shellTabCalendar,
+    _ShellLabel.matrix => context.l10n.shellTabMatrix,
+    _ShellLabel.focus => context.l10n.shellTabFocus,
+    _ShellLabel.more => context.l10n.shellTabMore,
+  };
 }
 
 /// Indirection so that the enum stays const while the strings stay in the ARB

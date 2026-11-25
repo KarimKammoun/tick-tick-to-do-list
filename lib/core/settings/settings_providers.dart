@@ -8,10 +8,10 @@ import 'settings_repository.dart';
 /// Overridden in `main.dart` once `SharedPreferences` has been loaded.
 final Provider<SettingsRepository> settingsRepositoryProvider =
     Provider<SettingsRepository>((Ref ref) {
-  throw UnimplementedError(
-    'settingsRepositoryProvider must be overridden during start-up.',
-  );
-});
+      throw UnimplementedError(
+        'settingsRepositoryProvider must be overridden during start-up.',
+      );
+    });
 
 /// Current appearance settings, persisted on every change.
 class AppSettingsController extends Notifier<AppSettings> {
@@ -29,10 +29,10 @@ class AppSettingsController extends Notifier<AppSettings> {
 
   /// Language of the interface; `null` means "follow the system language".
   Future<void> setLanguage(String? languageCode) => _update(
-        languageCode == null
-            ? state.copyWith(clearLanguage: true)
-            : state.copyWith(languageCode: languageCode),
-      );
+    languageCode == null
+        ? state.copyWith(clearLanguage: true)
+        : state.copyWith(languageCode: languageCode),
+  );
 
   Future<void> _update(AppSettings settings) async {
     state = settings;
@@ -42,8 +42,8 @@ class AppSettingsController extends Notifier<AppSettings> {
 
 final NotifierProvider<AppSettingsController, AppSettings> appSettingsProvider =
     NotifierProvider<AppSettingsController, AppSettings>(
-  AppSettingsController.new,
-);
+      AppSettingsController.new,
+    );
 
 /// Active theme data, rebuilt whenever the accent or the density changes.
 final Provider<ThemeData> lightThemeProvider = Provider<ThemeData>((Ref ref) {
