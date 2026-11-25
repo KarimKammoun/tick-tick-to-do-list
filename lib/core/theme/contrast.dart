@@ -42,8 +42,11 @@ abstract final class Contrast {
   /// Returns [foreground] when it already reaches [minRatio] on
   /// [background], otherwise blends it towards black or white - whichever
   /// direction leaves the background - until the ratio is met.
-  static Color readable(Color foreground, Color background,
-      {double minRatio = minTextRatio}) {
+  static Color readable(
+    Color foreground,
+    Color background, {
+    double minRatio = minTextRatio,
+  }) {
     final bool lighten = relativeLuminance(background) < 0.5;
     final Color target =
         lighten ? const Color(0xFFFFFFFF) : const Color(0xFF000000);

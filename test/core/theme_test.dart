@@ -151,12 +151,11 @@ void main() {
       expect(theme.colorScheme.primary, isNot(AppColors.defaultAccent));
     });
 
-    test('component themes use the token types of Flutter 3.35', () {
-      // `ThemeData.appBarTheme` is typed `Object?` and silently accepts the
-      // inherited `AppBarTheme` widget; passing the data class keeps the value
-      // analysable and lets the test read it back without a cast.
+    test('the app bar theme is built from the colour tokens', () {
+      // `ThemeData.appBarTheme` is typed `AppBarThemeData` from Flutter 3.35
+      // on; the colour is read back here so a token regression shows up as a
+      // test failure rather than as a differently coloured app bar.
       final ThemeData theme = AppTheme.light(AppColors.defaultAccent);
-      expect(theme.appBarTheme, isA<AppBarThemeData>());
       expect(
         theme.appBarTheme.backgroundColor,
         theme.extension<AppColorsTheme>()!.colors.background,
