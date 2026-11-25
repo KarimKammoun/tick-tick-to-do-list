@@ -1,7 +1,15 @@
-# Builds the two deliverables of the project from a clean machine:
+# Builds the two deliverables of the project from a clean machine.
 #
-#   * the Android APK, on a Linux runner with the Android SDK;
-#   * the Windows executable bundle, on a Windows runner that ships the Visual
+# Kept under docs/ci/ for the same reason as ci.yml: the credentials of this
+# repository's authoring environment are not allowed to push files under
+# `.github/workflows/`. To enable it, copy this file to
+# `.github/workflows/build.yml` from an account whose token has the "workflow"
+# permission; nothing else has to change.
+#
+# The two deliverables are:
+#
+#   * an Android APK, on a Linux runner with the Android SDK;
+#   * a Windows executable bundle, on a Windows runner that ships the Visual
 #     Studio C++ toolchain Flutter needs.
 #
 # Both are uploaded as workflow artifacts, so they can be downloaded from the
@@ -73,7 +81,7 @@ jobs:
       - name: Rename the APK
         run: |
           cp build/app/outputs/flutter-apk/app-release.apk \
-             "taskflow-${{ github.sha }}.apk"
+            "taskflow-${{ github.sha }}.apk"
 
       - name: Upload the APK
         uses: actions/upload-artifact@v4

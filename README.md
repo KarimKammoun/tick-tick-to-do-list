@@ -65,7 +65,8 @@ dart run build_runner build --delete-conflicting-outputs   # régénère la part
 
 Les `flutter test` couvrent la couche données (schéma, dossiers, listes, étiquettes, tâches), les thèmes et le contraste, la persistance des réglages, les modèles du domaine, la navigation et la coque responsive (mobile, tablette, bureau).
 
-Le workflow de CI prêt à l'emploi est `docs/ci/ci.yml` (voir plus bas).
+Les workflows prêts à l'emploi (CI et fabrication de l'APK + de l'exécutable
+Windows) sont dans `docs/ci/` (voir plus bas).
 
 ## Structure
 
@@ -87,17 +88,44 @@ lib/
 
 Chaque fonctionnalité suit `data` (Drift + providers), `domain` (modèles) et `presentation` (écrans) ; les écrans ne contiennent ni couleur ni texte en dur (voir `CLAUDE.md`).
 
-## Vérification sur Android et Windows
+## GitHub Actions : APK Android et exécutable Windows
 
-Le dépôt ne contient volontairement aucun workflow GitHub Actions : le jeton de
-l'environnement de génération n'a pas la permission « workflows ». Le fichier de
-CI prêt à l'emploi est fourni dans [`docs/ci/ci.yml`](docs/ci/ci.yml) ; pour
-l'activer, le copier en `.github/workflows/ci.yml` (commit avec un compte ayant
-la permission *workflow*).
+Deux workflows prêts à l'emploi sont fournis dans `docs/ci/` :
 
-En attendant, la vérification se fait en local : les quatre commandes de la
-section précédente, puis le lancement sur un téléphone Android et sur Windows,
-dans les deux thèmes.
+| Fichier | Rôle | À copier en |
+|---|---|---|
+| `docs/ci/ci.yml` | formatage, `flutter analyze`, `flutter test` | `.github/workflows/ci.yml` |
+| `docs/ci/build.yml` | **APK Android** + **bundle Windows x64** en artefacts téléchargeables | `.github/workflows/build.yml` |
+
+Ils ne sont pas versionnés sous `.github/workflows/` parce que le jeton de
+l'environnement de génération n'a pas la permission « workflows » (le push est
+refusé par GitHub). Pour les activer, depuis **votre** machine :
+
+```bash
+mkdir -p .github/workflows
+cp docs/ci/ci.yml .github/workflows/ci.yml
+cp docs/ci/build.yml .github/workflows/build.yml
+git add .github && git commit -m "ci: enable the CI and build workflows" && git push
+```
+
+Ensuite, onglet **Actions** du dépôt :
+
+- `Build` se lance à chaque push (et manuellement via **Run workflow**) ;
+- quand il est vert, ouvrez l'exécution terminée → section **Artifacts** :
+  - `taskflow-android-apk` → `taskflow-<sha>.apk`, à installer sur un téléphone
+    (release signé avec la clé de debug : installation et test OK, publication
+    Play Store non) ;
+  - `taskflow-windows-x64` → `taskflow-windows-x64-<sha>.zip`, à **décompresser
+    entièrement** puis lancer `taskflow.exe` (un build Flutter desktop n'est pas
+    un exécutable unique : le `.exe` a besoin des DLL et du dossier `data/`).
+
+Les artefacts sont conservés 30 jours. Le workflow épingle Flutter **3.50.1**,
+la version dont les templates ont servi à écrire `android/` et `windows/` ;
+montez cette valeur en même temps que ces dossiers, jamais seule.
+
+En attendant, la vérification se fait aussi en local : les quatre commandes de
+la section précédente, puis le lancement sur un téléphone Android et sur
+Windows, dans les deux thèmes.
 
 ## Limites connues de l'étape 0
 
