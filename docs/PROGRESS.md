@@ -28,7 +28,7 @@
 - Tests : base de données (schéma, CRUD, sous-tâches, suppression logique, tags), thème et contraste WCAG, réglages, domaine (UUID, priorités, rappels), coque mobile/bureau, navigation go_router, i18n (parité des clés, RTL).
 - Prérequis de version explicites dans `pubspec.yaml` : `sdk: ^3.8.0` et `flutter: ">=3.35.0"` (première stable exposant `AppBarThemeData` / `InputDecorationThemeData`, utilisés par le thème).
 - Dossiers `android/` (Kotlin, Gradle 9.5, AGP 9.3.1, `com.taskflow.taskflow`) et `windows/` (CMake + runner C++) générés depuis les templates officiels Flutter 3.50.1, icône applicative dessinée pour le projet (aucune reprise de la marque d'origine).
-- CI : `docs/ci/ci.yml` prêt à l'emploi (format, analyze, test). **Non actif** : le jeton GitHub de l'environnement de génération n'a pas la permission « workflows », donc aucun fichier `.github/workflows/` ne peut être poussé (voir décision 11).
+- CI : deux workflows prêts à l'emploi dans `docs/ci/` — `ci.yml` (format, analyze, test) et `build.yml` (**APK Android** + **bundle Windows x64** en artefacts). **Non actifs** : le jeton GitHub de l'environnement de génération n'a pas la permission « workflows », le push sous `.github/workflows/` est refusé par GitHub (voir décision 11).
 - `README.md`, `CLAUDE.md` créés.
 
 ## Décisions prises
@@ -49,6 +49,8 @@
 
 14. **Densité et langue appliquées puis mémorisées** : ces deux réglages existaient dans l'écran Paramètres mais n'avaient aucun effet (la densité était figée à `VisualDensity.standard` dans le thème, et la langue vivait dans un `StateProvider` perdu au redémarrage). Ils passent désormais par `AppSettings` (`density`, `languageCode`), donc par `shared_preferences` ; `AppSettings.languageCode` accepte `null` = langue du système, d'où le drapeau `clearLanguage` de `copyWith` (un `null` explicite est sinon indistinguable d'un paramètre omis).
 15. **`strict-casts` / `strict-raw-types` reportés à l'étape 1** : `CLAUDE.md` les annonçait, `analysis_options.yaml` ne les active pas. Les activer sans pouvoir lancer `flutter analyze` reviendrait à livrer un fichier non vérifié ; ils seront activés à la première exécution réelle de l'analyseur, avec le reste du code sous les yeux.
+
+16. **Workflows de fabrication livrés mais non activés** : `docs/ci/build.yml` construit l'APK Android (runner Linux, SDK Android, `flutter build apk --release`) et le bundle Windows x64 (runner Windows, toolchain C++ fourni par `windows-latest`, `flutter build windows --release` puis zip). Flutter est **épinglé à 3.50.1** dans le workflow, la version dont les templates ont servi à écrire `android/` et `windows/` : la monter en même temps que ces dossiers. L'APK est signé avec la clé de **debug** (voir le `TODO` de `android/app/build.gradle.kts`) : installable et testable, mais pas publiable sur le Play Store — la configuration d'une vraie clé est reportée à l'étape 7 (publication). Le transfert vers `.github/workflows/` reste à faire par l'utilisateur, faute de permission côté agent.
 
 ## Questions ouvertes
 
